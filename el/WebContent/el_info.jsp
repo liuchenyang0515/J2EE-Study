@@ -7,9 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		String word = (String)request.getAttribute("selectResult");
-		out.println(word);
-	%>
+	<h1>姓名：${requestScope.student.name}</h1>
+	<h2>手机：${requestScope.student.mobile}</h2>
+	<h2>评级：${requestScope.grade}</h2>
 </body>
 </html>
