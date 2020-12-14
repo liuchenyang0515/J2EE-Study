@@ -17,17 +17,28 @@ public class PatternServlet extends HttpServlet {
 		String url = req.getRequestURL().toString();
 		System.out.println(url);
 		String id = url.substring(url.lastIndexOf("/") + 1);
+		// 为了演示500服务器内部错误转成数字比较
+		int eid = Integer.parseInt(id);
+		
 		System.out.println(id);
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();
 		out.println(id);
-		if (id.equals("1")) {
+		
+		if (eid == 1) {
 			out.println("张三");
-		} else if (id.equals("2")) {
+		} else if (eid == 2) {
 			out.println("李四");
 		} else {
 			out.println("其他员工");
 		}
+//		if (id.equals("1")) {
+//			out.println("张三");
+//		} else if (id.equals("2")) {
+//			out.println("李四");
+//		} else {
+//			out.println("其他员工");
+//		}
 	}
 
 }
