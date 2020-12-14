@@ -17,4 +17,12 @@
   	<servlet-name>patternServlet</servlet-name>
   	<url-pattern>/pattern/*</url-pattern>
   </servlet-mapping>
+  <context-param>
+  	<param-name>copyright</param-name>
+  	<param-value>@ 2018 lcy.com 京ICP备 123456789号-10</param-value>
+  </context-param>
+    <context-param>
+  	<param-name>title</param-name>
+  	<param-value>我爱写代码</param-value>
+  </context-param>
 </web-app>
