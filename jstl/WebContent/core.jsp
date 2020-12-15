@@ -25,7 +25,8 @@
 		<c:when test="${grade == 'B' }">
 			<h2>不错哟</h2>
 		</c:when>
-		<c:when test="${grade == 'C' }">
+		<c:when test="$
+		{grade == 'C' }">
 			<h2>水平一般，需要提高</h2>
 		</c:when>
 		<c:when test="${grade == 'D' }">
@@ -35,6 +36,16 @@
 			<h2>一切随缘吧</h2>
 		</c:otherwise>
 	</c:choose>
+	<!-- forEach标签用于遍历集合
+	List companies = (List)request.getAttribute("companies");
+	for (Company c : companies) {
+		out.println("...");
+	}
+	 -->
+	<c:forEach items="${requestScope.companies }" var="c" varStatus="idx">
+		<h2 style="color:green">${idx.index+1}.${c.cname }-${c.url }</h2>	
+	</c:forEach>
+
 
 </body>
 </html>

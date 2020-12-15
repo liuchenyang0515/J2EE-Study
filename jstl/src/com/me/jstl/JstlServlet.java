@@ -1,6 +1,9 @@
 package com.me.jstl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +31,11 @@ public class JstlServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("score", 58);
 		request.setAttribute("grade", "F");
+		List<Company> list = new ArrayList<>();
+		list.add(new Company("ÌÚÑ¶", "www.tencent.com"));
+		list.add(new Company("°Ù¶È", "www.baidu.com"));
+		list.add(new Company("Ä½¿Î", "www.imooc.com"));
+		request.setAttribute("companies", list);
 		request.getRequestDispatcher("/core.jsp").forward(request, response);
 	}
 
