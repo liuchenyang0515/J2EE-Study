@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,5 +31,20 @@
 		<fmt:formatDate value="${requestScope.now }"
 			pattern="yyyy年MM月dd日 HH时mm分ss秒SSS毫秒 " />
 	</h2>
+	<h2>${amt }</h2>
+	<!-- 3个0就有逗号 -->
+	<h2>
+		￥<fmt:formatNumber value="${amt }" pattern="0,000.00"></fmt:formatNumber>元
+	</h2>
+	<h2>null默认值：<c:out value="${nothing}" default="无"></c:out></h2>
+	<h2><c:out value="${requestScope.html }" escapeXml="true"></c:out></h2>
+	<!-- c:out解决在EL中null只显示空串的问题，也能解决转义问题 -->
+	
+	<!-- escapeXml="true"表示进行转义，这个<a>标签会当成字符串输出
+	
+	<h2><a href='index.html'>index</a></h2> 会变成
+	
+	<h2>&lt;a href=&#039;index.html&#039;&gt;index&lt;/a&gt;</h2>
+	 -->
 </body>
 </html>
