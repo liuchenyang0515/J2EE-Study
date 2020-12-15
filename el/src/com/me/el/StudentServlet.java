@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class StudentServlet
@@ -32,8 +33,14 @@ public class StudentServlet extends HttpServlet {
 		stu.setName("子墨");
 		stu.setMobile(null);
 		String grade = "A";
-		request.setAttribute("student", stu);
-		request.setAttribute("grade", grade);
+		// 按照作用域大小获取属性值
+		request.getServletContext().setAttribute("grade", "C");
+		request.setAttribute("grade", "B");
+		HttpSession session = request.getSession();
+		session.setAttribute("student", stu);
+		session.setAttribute("grade", grade);
+//		request.setAttribute("student", stu);
+//		request.setAttribute("grade", grade);
 		request.getRequestDispatcher("/el_info.jsp").forward(request, response);
 	}
 

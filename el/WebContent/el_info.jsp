@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>姓名：${requestScope.student.name}</h1>
-	<h2>手机：${requestScope.student.mobile}</h2>
-	<h2>评级：${requestScope.grade}</h2>
+<!-- 忽略作用域对象，按照作用域从小到大依次获取，建议还是写上作用域，不然会从其他作用域尝试获取，会降低效率 -->
+	<h1>姓名：${student.name}</h1>
+	<h2>手机：${student.mobile}</h2>
+	<h2>评级：${grade}</h2>
 </body>
 </html>
