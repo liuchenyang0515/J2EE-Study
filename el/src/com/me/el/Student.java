@@ -15,5 +15,9 @@ public class Student {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", mobile=" + mobile + "]";
+	}
 	
 }
