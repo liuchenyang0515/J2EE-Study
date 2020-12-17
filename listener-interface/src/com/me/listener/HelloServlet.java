@@ -30,6 +30,7 @@ public class HelloServlet extends HttpServlet {
 		request.getServletContext().setAttribute("sc-attr1", "sc-attr-value1");
 		request.getSession().setAttribute("session-attr1", "session-attr-value1");
 		request.setAttribute("request-attr1", "request-attr-value1");
+		request.removeAttribute("request-attr1");
 	}
 
 	/**
