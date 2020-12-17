@@ -1,7 +1,9 @@
 package com.me.listener;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * Servlet implementation class RequestTotalServlet
@@ -33,9 +37,15 @@ public class RequestTotalServlet extends HttpServlet {
 		List<String> timeList = (List<String>) context.getAttribute("timeList");
 		List<Integer> valueList = (List<Integer>) context.getAttribute("valueList");
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().println(timeList.toString());
-		response.getWriter().println("<br />");
-		response.getWriter().println(valueList.toString());
+//		response.getWriter().println(timeList.toString());
+//		response.getWriter().println("<br />");
+//		response.getWriter().println(valueList.toString());
+		
+		Map<String, List> result = new HashMap<>();
+		result.put("timeList", timeList);
+		result.put("valueList", valueList);
+		String json = JSON.toJSONString(result);
+		response.getWriter().println(json);
 	}
 
 	/**

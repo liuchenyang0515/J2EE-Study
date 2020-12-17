@@ -10,6 +10,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
+import javax.servlet.http.HttpServletRequest;
 
 public class RequestTotalListener implements ServletContextListener, ServletRequestListener{
 
@@ -21,6 +22,12 @@ public class RequestTotalListener implements ServletContextListener, ServletRequ
 
 	@Override
 	public void requestInitialized(ServletRequestEvent sre) {
+		HttpServletRequest request = (HttpServletRequest) sre.getServletRequest();
+		String url = request.getRequestURL().toString();
+		if (url.endsWith("rt")) {//监听器除去rt结尾的请求就能准确统计，当然，你也可以去除统计页面total.html，不然每次刷新统计页面也会新增一个浏览数
+			return ;
+		}
+		
 		List<String> timeList = (List<String>) sre.getServletContext().getAttribute("timeList");
 		List<Integer> valueList = (List<Integer>) sre.getServletContext().getAttribute("valueList");
 		Date date = new Date();
