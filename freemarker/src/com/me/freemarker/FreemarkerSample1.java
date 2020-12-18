@@ -2,8 +2,11 @@ package com.me.freemarker;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.me.freemarker.entity.Computer;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -27,6 +30,12 @@ public class FreemarkerSample1 {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("site", "百度");
 		data.put("url", "http://www.baidu.com");
+		data.put("date", new Date());
+		data.put("number", 1290451230.124384598);
+		Map<String, String> info = new HashMap<String, String>();
+		info.put("cpu", "i5");
+		Computer c1 = new Computer("1234567", "ThinkPad", 1, "李四", new Date(), 12900f, info);
+		data.put("computer", c1);
 		// 3.产生输出,先把字节流转换为字符流
 		t.process(data, new OutputStreamWriter(System.out));
 	}
