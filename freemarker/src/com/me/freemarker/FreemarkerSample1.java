@@ -34,7 +34,7 @@ public class FreemarkerSample1 {
 		data.put("number", 1290451230.124384598);
 		Map<String, String> info = new HashMap<String, String>();
 		info.put("cpu", "i5");
-		Computer c1 = new Computer("1234567", "ThinkPad", 1, "李四", new Date(), 12900f, info);
+		Computer c1 = new Computer("1234567", "ThinkPad", 2, null, new Date(), 12900f, info);
 		data.put("computer", c1);
 		// 3.产生输出,先把字节流转换为字符流
 		t.process(data, new OutputStreamWriter(System.out));
