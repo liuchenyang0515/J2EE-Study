@@ -5,6 +5,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,13 @@ public class FreemarkerSample1 {
 		computers.add(new Computer("1234570", "ACER X1", 1, "王五", new Date(), 6300f, new HashMap()));
 		computers.add(new Computer("1234571", "MSI X1", 1, "赵六", new Date(), 9300f, new HashMap()));
 		data.put("computers", computers);
+		
+		// LinkedHashMap可以保证数据按存储顺序进行提取
+		Map<String, Computer> computerMap = new LinkedHashMap<>();
+		for (Computer c : computers) {
+			computerMap.put(c.getSn(), c);
+		}
+		data.put("computer_map", computerMap);
 		
 //		data.put("site", "百度");
 //		data.put("url", "http://www.baidu.com");

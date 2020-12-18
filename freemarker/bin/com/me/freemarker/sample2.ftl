@@ -20,3 +20,8 @@ SN£º${c.sn}
 ²É¹º¼Û¸ñ£º${c.price?string("0.00")}
 ----------------------------------------
 </#list>
+===================================================
+<#list computer_map?keys as k>
+${k}-${computer_map[k].model}
+${computer_map[k].price?string("0.00")}
+</#list>
