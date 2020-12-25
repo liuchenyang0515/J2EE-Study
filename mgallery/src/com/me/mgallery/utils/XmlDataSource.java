@@ -12,29 +12,29 @@ import org.dom4j.io.SAXReader;
 import com.me.mgallery.entity.Painting;
 
 public class XmlDataSource {
-	// Í¨¹ıstatic¾²Ì¬¹Ø¼ü×Ö±£Ö¤Êı¾İÈ«¾ÖÎ¨Ò»
+	// é€šè¿‡staticé™æ€å…³é”®å­—ä¿è¯æ•°æ®å…¨å±€å”¯ä¸€
 	private static List<Painting> data = new ArrayList<>();
 	private static String dataFile;
 	static {
-		// µÃµ½painting.xmlÎÄ¼şÍêÕûÎïÀíÂ·¾¶
-		// Èç¹ûÂ·¾¶ÓĞÌØÊâ×Ö·û£¬getPath()»á½øĞĞBASE64×ª»»£¬±ÈÈç¿Õ¸ñ»á×ª»¯Îª%20
+		// å¾—åˆ°painting.xmlæ–‡ä»¶å®Œæ•´ç‰©ç†è·¯å¾„
+		// å¦‚æœè·¯å¾„æœ‰ç‰¹æ®Šå­—ç¬¦ï¼ŒgetPath()ä¼šè¿›è¡ŒBASE64è½¬æ¢ï¼Œæ¯”å¦‚ç©ºæ ¼ä¼šè½¬åŒ–ä¸º%20
 		dataFile = XmlDataSource.class.getResource("/painting.xml").getPath();
 		System.out.println(dataFile);
 		URLDecoder decoder = new URLDecoder();
 		try {
 			dataFile = decoder.decode(dataFile,"UTF-8");
 			System.out.println(dataFile);
-			// ÀûÓÃDOM4j¶ÔXML½øĞĞ½âÎö
+			// åˆ©ç”¨DOM4jå¯¹XMLè¿›è¡Œè§£æ
 			SAXReader reader = new SAXReader();
-			// 1.»ñÈ¡DocumentÎÄµµ¶ÔÏó
+			// 1.è·å–Documentæ–‡æ¡£å¯¹è±¡
 			Document document = reader.read(dataFile);
-			// 2.XpathµÃµ½XML½Úµã¼¯ºÏ
+			// 2.Xpathå¾—åˆ°XMLèŠ‚ç‚¹é›†åˆ
 			List<Node> nodes = document.selectNodes("/root/painting");
 			
 			for (Node node : nodes) {
 				Element element = (Element)node;
 				String id = element.attributeValue("id");
-				String pname = element.elementText("pname"); // ×Ó½ÚµãÎÄ±¾
+				String pname = element.elementText("pname"); // å­èŠ‚ç‚¹æ–‡æœ¬
 				Painting painting = new Painting();
 				painting.setId(Integer.parseInt(id));
 				painting.setPname(pname);
@@ -43,7 +43,7 @@ public class XmlDataSource {
 				painting.setPreview(element.elementText("preview"));
 				painting.setDescription(element.elementText("description"));
 				data.add(painting);
-				System.out.println(id + ":" + pname);
+//				System.out.println(id + ":" + pname);
 			}
 			
 		} catch (Exception e) {
@@ -53,7 +53,7 @@ public class XmlDataSource {
 	}
 	
 	/**
-	 * 	»ñÈ¡ËùÓĞÓÍ»­Painting¶ÔÏó
+	 * 	è·å–æ‰€æœ‰æ²¹ç”»Paintingå¯¹è±¡
 	 * @return	Painting List
 	 */
 	public static List<Painting> getRawData() {

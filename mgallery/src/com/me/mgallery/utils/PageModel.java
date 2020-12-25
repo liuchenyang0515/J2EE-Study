@@ -3,17 +3,17 @@ package com.me.mgallery.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-// ·ÖÒ³Ä£ĞÍ¶ÔÏó
+// åˆ†é¡µæ¨¡å‹å¯¹è±¡
 public class PageModel {
-	private int page;		// Ò³ºÅ
-	private int totalPages;	// ×ÜÒ³Êı
-	private int rows;		// Ã¿Ò³¼ÇÂ¼Êı
-	private int totalRows;	// ×Ü¼ÇÂ¼Êı
-	private int pageStartRow; // µ±Ç°Ò³Ãæ´ÓµÚnĞĞ¿ªÊ¼
-	private int pageEndRow;	// µ±Ç°Ò³µ½nĞĞ½áÊø
-	private boolean hasNextPage;  // ÊÇ·ñ´æÔÚÏÂÒ»Ò³
-	private boolean hasPreviousPage;  // ÊÇ·ñ´æÔÚÉÏÒ»Ò³
-	private List pageData;	// µ±Ç°Ò³ÃæÊı¾İ
+	private int page;		// é¡µå·
+	private int totalPages;	// æ€»é¡µæ•°
+	private int rows;		// æ¯é¡µè®°å½•æ•°
+	private int totalRows;	// æ€»è®°å½•æ•°
+	private int pageStartRow; // å½“å‰é¡µé¢ä»ç¬¬nè¡Œå¼€å§‹
+	private int pageEndRow;	// å½“å‰é¡µåˆ°nè¡Œç»“æŸ
+	private boolean hasNextPage;  // æ˜¯å¦å­˜åœ¨ä¸‹ä¸€é¡µ
+	private boolean hasPreviousPage;  // æ˜¯å¦å­˜åœ¨ä¸Šä¸€é¡µ
+	private List pageData;	// å½“å‰é¡µé¢æ•°æ®
 	
 	
 	public PageModel() {
@@ -21,34 +21,34 @@ public class PageModel {
 	}
 
 	/**
-	 * 	³õÊ¼»¯PageModel¶ÔÏó£¬¼ÆËã·ÖÒ³ÊôĞÔ
-	 * @param data	Ô­Ê¼Êı¾İ¼¯ºÏ
-	 * @param page	Ò³ºÅ
-	 * @param rows	Ã¿Ò³¼ÇÂ¼Êı
+	 * 	åˆå§‹åŒ–PageModelå¯¹è±¡ï¼Œè®¡ç®—åˆ†é¡µå±æ€§
+	 * @param data	åŸå§‹æ•°æ®é›†åˆ
+	 * @param page	é¡µå·
+	 * @param rows	æ¯é¡µè®°å½•æ•°
 	 */
 	public PageModel(List data, int page, int rows) {
 		this.page = page;
 		this.rows = rows;
 		totalRows = data.size();
-		// ×ÜÒ³Êı¼ÆËã¹æÔò£º×ÜĞĞÊı/Ã¿Ò³¼ÇÂ¼Êı£¬ÄÜÕû³ıÒ³È¡Õû£¬²»ÄÜÕû³ıÏòÉÏÈ¡Õû
-		// ÀıÈç£º18/6=3 | 20/6¡Ö3.33 ÏòÉÏÈ¡Õû4
+		// æ€»é¡µæ•°è®¡ç®—è§„åˆ™ï¼šæ€»è¡Œæ•°/æ¯é¡µè®°å½•æ•°ï¼Œèƒ½æ•´é™¤é¡µå–æ•´ï¼Œä¸èƒ½æ•´é™¤å‘ä¸Šå–æ•´
+		// ä¾‹å¦‚ï¼š18/6=3 | 20/6â‰ˆ3.33 å‘ä¸Šå–æ•´4
 		totalPages = new Double(Math.ceil(totalRows*1.0/rows)).intValue();
 		
-		pageStartRow = (page - 1) * rows; // È¡·ÖÒ³Êı¾İÆğÊ¼µã
-		pageEndRow = page * rows;	// È¡·ÖÒ³Êı¾İ½áÊøµã
+		pageStartRow = (page - 1) * rows; // å–åˆ†é¡µæ•°æ®èµ·å§‹ç‚¹
+		pageEndRow = page * rows;	// å–åˆ†é¡µæ•°æ®ç»“æŸç‚¹
 		// totalRows:20 | totalPage:4 | rows:6
-		// pageEndRow=4*6=24>20 Ö´ĞĞsubList()Å×³öÏÂ±êÔ½½çÒì³£
+		// pageEndRow=4*6=24>20 æ‰§è¡ŒsubList()æŠ›å‡ºä¸‹æ ‡è¶Šç•Œå¼‚å¸¸
 		if(pageEndRow > totalRows) {
 			pageEndRow = totalRows;
 		}
 		
-		pageData = data.subList(pageStartRow, pageEndRow); // µÃµ½·ÖÒ³Êı¾İ
-		if (page > 1) { // ÅĞ¶ÏÊÇ·ñ´æÔÚÉÏÒ»Ò³
+		pageData = data.subList(pageStartRow, pageEndRow); // å¾—åˆ°åˆ†é¡µæ•°æ®
+		if (page > 1) { // åˆ¤æ–­æ˜¯å¦å­˜åœ¨ä¸Šä¸€é¡µ
 			hasPreviousPage = true;
 		} else {
 			hasPreviousPage = false;
 		}
-		if (page < totalPages) { // ÅĞ¶ÏÊÇ·ñ´æÔÚÏÂÒ»Ò³
+		if (page < totalPages) { // åˆ¤æ–­æ˜¯å¦å­˜åœ¨ä¸‹ä¸€é¡µ
 			hasNextPage = true;
 		} else {
 			hasNextPage = false;

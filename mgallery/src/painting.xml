@@ -64,13 +64,6 @@
 		<preview>/upload/9.jpg</preview>
 		<description>古典油画鉴赏9的描述文本</description>
 	</painting>
-	<painting id="9">
-		<pname>古典油画鉴赏9</pname>
-		<category>1</category>
-		<price>3800</price>
-		<preview>/upload/9.jpg</preview>
-		<description>古典油画鉴赏9的描述文本</description>
-	</painting>
 	<painting id="10">
 		<pname>抽象派油画鉴赏1</pname>
 		<category>2</category>

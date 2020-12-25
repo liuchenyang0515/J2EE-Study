@@ -1,13 +1,13 @@
 package com.me.mgallery.entity;
 
-// ÓÍ»­ÊµÌåÀà
+// æ²¹ç”»å®ä½“ç±»
 public class Painting {
-	private Integer id; // ÓÍ»­±àºÅ
-	private String pname; // Ãû³Æ
-	private Integer category; // ·ÖÀà 1-ÏÖÊµÖ÷Òå 2-³éÏóÖ÷Òå
-	private Integer price;	 // ¼Û¸ñ
-	private String preview;	// ÓÍ»­Í¼Æ¬µØÖ·
-	private String description;	// ÃèÊö
+	private Integer id; // æ²¹ç”»ç¼–å·
+	private String pname; // åç§°
+	private Integer category; // åˆ†ç±» 1-ç°å®ä¸»ä¹‰ 2-æŠ½è±¡ä¸»ä¹‰
+	private Integer price;	 // ä»·æ ¼
+	private String preview;	// æ²¹ç”»å›¾ç‰‡åœ°å€
+	private String description;	// æè¿°
 	
 	public Integer getId() {
 		return id;
