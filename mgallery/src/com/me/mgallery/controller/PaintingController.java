@@ -40,6 +40,7 @@ public class PaintingController extends HttpServlet {
 		}
 		// 2.调用Service方法，得到处理结果
 		PageModel pageModel = paintingService.pagination(Integer.parseInt(page), Integer.parseInt(rows));
+		response.setCharacterEncoding("utf-8");
 		request.setAttribute("pageModel", pageModel);
 		// 3.请求转发至对应JSP(view)进行数据展现
 		request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
