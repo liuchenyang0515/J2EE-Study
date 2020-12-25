@@ -32,6 +32,7 @@ public class PaintingController extends HttpServlet {
 		// 接受HTTP数据
 		String page = request.getParameter("p"); // 页号
 		String rows = request.getParameter("r"); // 每页记录数
+		String category = request.getParameter("c");
 		if (page == null) { // page设置默认值
 			page = "1";
 		}
@@ -39,7 +40,7 @@ public class PaintingController extends HttpServlet {
 			rows = "6";
 		}
 		// 2.调用Service方法，得到处理结果
-		PageModel pageModel = paintingService.pagination(Integer.parseInt(page), Integer.parseInt(rows));
+		PageModel pageModel = paintingService.pagination(Integer.parseInt(page), Integer.parseInt(rows), category);
 		response.setCharacterEncoding("utf-8");
 		request.setAttribute("pageModel", pageModel);
 		// 3.请求转发至对应JSP(view)进行数据展现

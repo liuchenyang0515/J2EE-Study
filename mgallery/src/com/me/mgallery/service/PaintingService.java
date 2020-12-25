@@ -8,11 +8,17 @@ import com.me.mgallery.utils.PageModel;
 
 public class PaintingService {
 	private PaintingDao paintingDao = new PaintingDao();
-	public PageModel pagination(int page, int rows) {
+	
+	public PageModel pagination(int page, int rows, String...category) {
 		if (rows == 0) {
 			throw new RuntimeException("无效的rows参数");
 		}
-		return paintingDao.pagination(page, rows);
+		// 传入category就调用三个参数的pagination方法
+		if (category.length == 0 || category[0] == null) {
+			return paintingDao.pagination(page, rows);
+		} else {
+			return paintingDao.pagination(Integer.parseInt(category[0]), page, rows);
+		}
 	}
 	public static void main(String[] args) {
 		PaintingService paintingService = new PaintingService();
