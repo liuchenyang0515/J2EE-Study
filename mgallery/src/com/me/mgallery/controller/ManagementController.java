@@ -17,6 +17,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.me.mgallery.entity.Painting;
 import com.me.mgallery.service.PaintingService;
 import com.me.mgallery.utils.PageModel;
 
@@ -76,10 +77,27 @@ public class ManagementController extends HttpServlet {
 		// 2.遍历所有FileItem
 		try {
 			List<FileItem> formData = sf.parseRequest(request);
+			Painting painting = new Painting();
 			for (FileItem fi : formData) {
 				if (fi.isFormField()) {
 					// 判断是普通输入项还是文件上传框
 					System.out.println("普通输入项" + fi.getFieldName() + ":" + fi.getString("utf-8"));
+					switch (fi.getFieldName()) {
+					case "pname":
+						painting.setPname(fi.getString("utf-8"));
+						break;
+					case "category":
+						painting.setCategory(Integer.parseInt(fi.getString("utf-8")));
+						break;
+					case "price":
+						painting.setPrice(Integer.parseInt(fi.getString("utf-8")));
+						break;
+					case "description":
+						painting.setDescription(fi.getString("utf-8"));
+						break;
+					default:
+						break;
+					}
 				} else {
 					System.out.println("文件上传项" + fi.getFieldName());
 					// 3.将客户端上传到服务器的文件保存到某个目录
@@ -93,8 +111,11 @@ public class ManagementController extends HttpServlet {
 					String suffix = fi.getName().substring(fi.getName().lastIndexOf("."));
 					// 浏览器输入http://localhost/upload/文件名.扩展名  即可访问
 					fi.write(new File(path, fileName + suffix));
+					painting.setPreview("/upload/" + fileName + suffix);
 				}
 			}
+			paintingService.create(painting); // 新增功能
+			response.sendRedirect("management?method=list"); // 返回列表页
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

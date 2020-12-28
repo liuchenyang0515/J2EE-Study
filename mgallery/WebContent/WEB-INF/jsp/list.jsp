@@ -65,12 +65,22 @@
 			</table>
 			<!-- 分页组件 -->
 			<ul class="page">
-				<li><a href="#">首页</a></li>
-				<li><a href="#">上页</a></li>
-				<li class='active'><a href="#">1</a></li>
-				<li ><a href="#">2</a></li>
-				<li><a href="#">下页</a></li>
-				<li><a href="#">尾页</a></li>
+				<li><a href="/management?method=list&p=1">首页</a></li>
+				<li><a href="/management?method=list&p=${pageModel.hasPreviousPage?pageModel.page-1:1 }">上页</a></li>
+				
+				<c:forEach begin="1" end="${pageModel.totalPages }" var="pno" step="1">
+					<li ${pno == pageModel.page?"class='active'":""}><span>
+					<!-- c不存在，则href="/page?p=1" -->
+					<!-- c存在，则href="/page?p=1&c=1" -->
+					<a href="/management?method=list&p=${pno}">
+					${pno }
+					</a>
+					</span></li>
+				</c:forEach>
+				<!-- <li class='active'><a href="#">1</a></li>
+				<li ><a href="#">2</a></li> -->
+				<li><a href="/management?method=list&p=${pageModel.hasNextPage?pageModel.page+1:pageModel.totalPages }">下页</a></li>
+				<li><a href="/management?method=list&p=${pageModel.totalPages}">尾页</a></li>
 			</ul>
 		</fieldset>
 	</div>

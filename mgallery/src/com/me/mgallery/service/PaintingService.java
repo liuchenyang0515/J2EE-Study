@@ -20,6 +20,14 @@ public class PaintingService {
 			return paintingDao.pagination(Integer.parseInt(category[0]), page, rows);
 		}
 	}
+	/**
+	 * 	新增油画
+	 * @param painting 准备新增Painting的数据
+	 */
+	public void create(Painting painting) {
+		paintingDao.create(painting);
+	}
+	
 	public static void main(String[] args) {
 		PaintingService paintingService = new PaintingService();
 		PageModel pageModel = paintingService.pagination(2, 6);
