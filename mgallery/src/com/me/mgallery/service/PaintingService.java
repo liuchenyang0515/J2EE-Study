@@ -5,6 +5,7 @@ import java.util.List;
 import com.me.mgallery.dao.PaintingDao;
 import com.me.mgallery.entity.Painting;
 import com.me.mgallery.utils.PageModel;
+import com.me.mgallery.utils.XmlDataSource;
 
 public class PaintingService {
 	private PaintingDao paintingDao = new PaintingDao();
@@ -26,6 +27,19 @@ public class PaintingService {
 	 */
 	public void create(Painting painting) {
 		paintingDao.create(painting);
+	}
+	
+	/**
+	 * 	按编号查询油画
+	 * @param id 油画编号
+	 * @return	油画对象
+	 */
+	public Painting findById(Integer id) {
+		Painting p = paintingDao.findById(id);
+		if (p == null) {
+			throw new RuntimeException("[id=" + id + "]油画不存在");
+		}
+		return p;
 	}
 	
 	public static void main(String[] args) {

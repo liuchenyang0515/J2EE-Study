@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -27,39 +26,54 @@ import com.me.mgallery.utils.PageModel;
 @WebServlet("/management")
 public class ManagementController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	private PaintingService paintingService = new PaintingService();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ManagementController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ManagementController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
 		String method = request.getParameter("method");
 		if (method.equals("list")) {
-			this.list(request,response);
+			this.list(request, response);
 		} else if (method.equals("delete")) {
-			
-		} else if (method.equals("show_create")) {
+
+		} else if (method.equals("show_create")) { // 显示新增页面
 			// http://localhost:8080/management?method=show_create
 			this.showCreatePage(request, response);
 		} else if (method.equals("create")) {
 			this.create(request, response);
+		} else if (method.equals("show_update")) {
+			this.showUpdatePage(request, response);
 		}
 	}
-	
+
+	private void showUpdatePage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String id = request.getParameter("id");
+		Painting painting = paintingService.findById(Integer.parseInt(id));
+		request.setAttribute("painting", painting);
+		request.getRequestDispatcher("/WEB-INF/jsp/update.jsp").forward(request, response);
+	}
+
 	// 显示油画的方法
-	private void showCreatePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void showCreatePage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/jsp/create.jsp").forward(request, response);
 	}
+
 	// 新增油画的方法
 	private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 因为设置了enctype="multipart/form-data"，图片就不会以字符串方式上传，而是二进制的方式
@@ -70,8 +84,8 @@ public class ManagementController extends HttpServlet {
 		// 1.初始化FileLoad组件
 		FileItemFactory factory = new DiskFileItemFactory();
 		/**
-		 * FileItemFactory 用于将前端表单的数据转换为一个个FileItem对象
-		 * ServletFileUpload 则是FileUpload组件提供Java web的Http请求解析
+		 * FileItemFactory 用于将前端表单的数据转换为一个个FileItem对象 ServletFileUpload
+		 * 则是FileUpload组件提供Java web的Http请求解析
 		 */
 		ServletFileUpload sf = new ServletFileUpload(factory);
 		// 2.遍历所有FileItem
@@ -104,12 +118,12 @@ public class ManagementController extends HttpServlet {
 					// getRealPath是tomcat运行环境下的物理地址(磁盘物理路径)
 					String path = request.getServletContext().getRealPath("/upload");
 					System.out.println("上传文件目录:" + path);
-					//经测试，上传到了D:\\Tomcat9.0\\webapps\\mgallery\\upload
-					//String fileName = "test.jpg"; // 已存在的名字是不能被覆盖的，会报错，必须加以区分，比如随机数时间戳
-					String fileName = UUID.randomUUID().toString();//UUID和计算机本地属性相关，比如网卡、时间等等，会出现一个唯一字符串
+					// 经测试，上传到了D:\\Tomcat9.0\\webapps\\mgallery\\upload
+					// String fileName = "test.jpg"; // 已存在的名字是不能被覆盖的，会报错，必须加以区分，比如随机数时间戳
+					String fileName = UUID.randomUUID().toString();// UUID和计算机本地属性相关，比如网卡、时间等等，会出现一个唯一字符串
 					// fi.getName()得到原始文件名，截取扩展名，比如xx.jpg-->.jpg
 					String suffix = fi.getName().substring(fi.getName().lastIndexOf("."));
-					// 浏览器输入http://localhost/upload/文件名.扩展名  即可访问
+					// 浏览器输入http://localhost/upload/文件名.扩展名 即可访问
 					fi.write(new File(path, fileName + suffix));
 					painting.setPreview("/upload/" + fileName + suffix);
 				}
@@ -124,9 +138,11 @@ public class ManagementController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
