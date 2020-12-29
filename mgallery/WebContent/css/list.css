@@ -77,6 +77,10 @@ thead tr {
 	color: white;
 }
 
+.page a li.active {
+	color: white;
+}
+
 .oplink {
 	color: lightseagreen
 }

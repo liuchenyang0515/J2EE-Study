@@ -30,7 +30,7 @@
 		<fieldset>
 			<legend>油画列表</legend>
 			<div style="height: 40px">
-				<a href="#" class="btn-button">新增</a>
+				<a href="/management?method=show_create" class="btn-button">新增</a>
 			</div>
 			<!-- 油画列表 -->
 			<table cellspacing="0px">
@@ -67,15 +67,13 @@
 			<ul class="page">
 				<li><a href="/management?method=list&p=1">首页</a></li>
 				<li><a href="/management?method=list&p=${pageModel.hasPreviousPage?pageModel.page-1:1 }">上页</a></li>
-				
+				<!-- c不存在，则href="/page?p=1" -->
+				<!-- c存在，则href="/page?p=1&c=1" -->
 				<c:forEach begin="1" end="${pageModel.totalPages }" var="pno" step="1">
-					<li ${pno == pageModel.page?"class='active'":""}><span>
-					<!-- c不存在，则href="/page?p=1" -->
-					<!-- c存在，则href="/page?p=1&c=1" -->
-					<a href="/management?method=list&p=${pno}">
-					${pno }
+					
+					<a href="/management?method=list&p=${pno}"><li ${pno == pageModel.page?"class='active'":""}>
+					${pno }</li>
 					</a>
-					</span></li>
 				</c:forEach>
 				<!-- <li class='active'><a href="#">1</a></li>
 				<li ><a href="#">2</a></li> -->

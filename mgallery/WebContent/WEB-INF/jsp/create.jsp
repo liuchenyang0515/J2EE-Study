@@ -11,13 +11,29 @@
 <link rel="stylesheet" type="text/css" href="css\create.css">
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/validation.js"></script>
+<script>
+	function checkSubmit() {
+		let result = true;
+		let r1 = checkEmpty('#pname', '#errPname'); // 对名称的校验
+		let r2 = checkCategory('#category', '#errCategory'); // 对类别校验
+		let r3 = checkPrice('#price', '#errPrice'); // 对价格的校验
+		let r4 = checkFile('#painting', '#errPainting'); // 对上传文件的校验
+		let r5 = checkEmpty('#description', '#errDescription'); // 对描述文本框的校验
+		if (r1 && r2 && r3 && r4 && r5) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+</script>
 </head>
 <body>
 	<div class="container">
 		<fieldset>
 			<legend>新增油画</legend>
 			<form action="/management?method=create" method="post"
-				autocomplete="off" enctype="multipart/form-data">
+				autocomplete="off" enctype="multipart/form-data" onsubmit="return checkSubmit()">
+				<!-- form的onsubmit对提交监听，return true表示允许提交，false会拦截此次提交，所有不满足条件的校验都会提示错误信息 -->
 				<ul class="ulform">
 					<li>
 						<span>油画名称</span>
