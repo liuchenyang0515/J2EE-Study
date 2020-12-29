@@ -70,7 +70,7 @@ function checkPrice(input,errSelector){
 }
 
 /**
- * 上传文件必须是图片
+ * 上传文件必须是图片，因为上传时可以在右下角选择所有文件，导致可能上传的不是图片格式
  * @param input 表单域选择器
  * @param errSelector 错误提示选择器
  * @returns true-校验成功  false-校验失败
