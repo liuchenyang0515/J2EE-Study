@@ -30,16 +30,34 @@ public class PaintingService {
 	}
 
 	public void update(Painting newPainting, int isPreviewModified) {
+		boolean isModified = false;
 		Painting oldPainting = paintingDao.findById(newPainting.getId()); // id的作用是拿到对应的旧的painting对象，而不是去更新它
 		if (isPreviewModified == 1) { // 1表示原始painting对象需要更新preview图片地址
 			oldPainting.setPreview(newPainting.getPreview());
+			isModified = true;
 		}
-		oldPainting.setPname(newPainting.getPname());
-		oldPainting.setCategory(newPainting.getCategory());
-		oldPainting.setPrice(newPainting.getPrice());
+		if (!oldPainting.getPname().equals(newPainting.getPname())) {
+			oldPainting.setPname(newPainting.getPname());
+			isModified = true;
+		}
+		if (!oldPainting.getCategory().equals(newPainting.getCategory())) {
+			oldPainting.setCategory(newPainting.getCategory());
+			isModified = true;
+		}
+		if (!oldPainting.getPrice().equals(newPainting.getPrice())) {
+			oldPainting.setPrice(newPainting.getPrice());
+			isModified = true;
+		}
+		if (!oldPainting.getDescription().equals(newPainting.getDescription())) {
+			oldPainting.setDescription(newPainting.getDescription());
+			isModified = true;
+		}
+		if (isModified) { // 只有任意一项修改之后，才去进行更新操作
+			paintingDao.update(oldPainting);
+		} else {
+			System.out.println("没有修改，不作处理");
+		}
 //		oldPainting.setId(newPainting.getId()); // id没变，不用设置
-		oldPainting.setDescription(newPainting.getDescription());
-		paintingDao.update(oldPainting);
 	}
 	
 	/**

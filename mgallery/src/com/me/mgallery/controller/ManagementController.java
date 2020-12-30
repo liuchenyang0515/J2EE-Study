@@ -78,7 +78,7 @@ public class ManagementController extends HttpServlet {
 			for (FileItem fi : formData) {
 				if (fi.isFormField()) {
 					// 判断是普通输入项还是文件上传框
-					System.out.println("update后普通输入项" + fi.getFieldName() + ":" + fi.getString("utf-8"));
+					System.out.println("update中普通输入项" + fi.getFieldName() + ":" + fi.getString("utf-8"));
 					switch (fi.getFieldName()) {
 					case "pname":
 						painting.setPname(fi.getString("utf-8"));
@@ -102,7 +102,7 @@ public class ManagementController extends HttpServlet {
 						break;
 					}
 				} else if(isPreviewModified.equals("1")) {// 1表示重新上传了新图片
-					System.out.println("update后文件上传项" + fi.getFieldName());
+					System.out.println("update中文件上传项" + fi.getFieldName());
 					// 3.将客户端上传到服务器的文件保存到某个目录
 					// getRealPath是tomcat运行环境下的物理地址(磁盘物理路径)
 					String path = request.getServletContext().getRealPath("/upload");
