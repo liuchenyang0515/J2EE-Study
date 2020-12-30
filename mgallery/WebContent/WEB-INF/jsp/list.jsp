@@ -22,6 +22,34 @@
 			showConfirmButton: false
 		})	
 	}
+	function del(delObj) {
+		var preview = $(delObj).attr("data-preview");
+		var pname = $(delObj).attr("data-pname");
+		var id = $(delObj).attr("data-id");
+		Swal.fire({
+			title: pname,
+			html:"<img src='" + preview + "' style='width:361px;height:240px'>",
+			showCloseButton:true, // 右上角叉叉
+			confirmButtonText: '确定',// 确定按钮的 文字
+			showCancelButton: true, // 是否显示取消按钮
+			cancelButtonText: "取消", // 取消按钮的 文字
+		}).then(async (isConfirm) => {
+	        //判断 是否 点击的 确定按钮
+	        if (isConfirm.value) {
+	        	try {
+	        		let response = await fetch('/management?method=delete&id=' + id);
+		        	let data = await response.json();
+		        	console.log(data);
+	        	} catch (error) {
+	        		// 想测试触发error逻辑很简单，只要取消刷新，再次删除会报错该id的油画不存在，删除失败
+	        		console.error(error);
+	        	}
+	        	// 最后注释：
+	        	// 因为数据存在于XML中，上传的图片和XML配置在重启tomcat后就会消失。后续讲解数据库后有解决办法
+	        	location.reload(true);
+	        }
+		});
+	}
 
 </script>
 </head>
@@ -58,7 +86,8 @@
 						<td>
 							<a class="oplink" data-preview="${painting.preview }" data-pname="${painting.pname }" href="javascript:void(0)" onclick="showPreview(this)">预览</a>
 							<a class="oplink" href="/management?method=show_update&id=${painting.id }">修改</a>
-							<a class="oplink" href="#">删除</a>
+							<a class="oplink" href="javascript:void(0)" data-id="${painting.id }" data-pname="${painting.pname }" 
+									data-preview="${painting.preview }" onclick="del(this)">删除</a>
 						</td>
 					</tr>
 				</c:forEach>

@@ -61,6 +61,14 @@ public class PaintingService {
 	}
 	
 	/**
+	 * 	删除油画
+	 * @param id
+	 */
+	public void delete(Integer id) {
+		paintingDao.delete(id);
+	}
+	
+	/**
 	 * 	按编号查询油画
 	 * @param id 油画编号
 	 * @return	油画对象

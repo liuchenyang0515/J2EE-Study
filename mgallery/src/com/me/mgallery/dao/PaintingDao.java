@@ -54,6 +54,10 @@ public class PaintingDao {
 	public void update(Painting painting) {
 		XmlDataSource.update(painting);
 	}
+	
+	public void delete(Integer id) {
+		XmlDataSource.delete(id);
+	}
 
 	public Painting findById(Integer id) {
 		List<Painting> data = XmlDataSource.getRawData();

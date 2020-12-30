@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 数据文件 --><root>
+<!-- 数据文件 -->
+<root>
 	<painting id="1">
 		<pname>古典油画鉴赏1</pname>
 		<category>1</category>
@@ -106,4 +107,4 @@
 		<description>抽象派油画鉴赏6的描述文本</description>
 	</painting>
 	
-<painting id="16"><pname>测试油画</pname><category>1</category><price>4000</price><preview>/upload/10.jpg</preview><description>测试油画描述</description></painting></root>
+</root>

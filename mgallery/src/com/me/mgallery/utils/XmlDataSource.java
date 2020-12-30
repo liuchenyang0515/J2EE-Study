@@ -146,6 +146,45 @@ public class XmlDataSource {
 		}
 	}
 	
+	/**
+	 * 	根据id删除XML油画数据
+	 * @param id
+	 */
+	public static void delete(Integer id) {
+		SAXReader reader = new SAXReader();
+		Writer writer = null;
+		try {
+			Document document = reader.read(dataFile);
+			List<Node> nodes = document.selectNodes("/root/painting[@id=" + id + "]");
+			System.out.println("nodes:" + nodes);
+			if (nodes.size() == 0) {
+				throw new RuntimeException("id="+ id +"编号油画不存在，删除失败");
+			}
+			Element p = (Element) nodes.get(0);
+			Element parent = p.getParent();
+			parent.remove(p);
+			writer = new OutputStreamWriter(new FileOutputStream(dataFile), "utf-8");
+			document.write(writer);
+		} catch (RuntimeException r) {
+			// 继续上抛，为了回传给客户端时判断删除成功还是失败
+			throw new RuntimeException(r.getMessage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// 底层xml更改，需要重新加载更新
+			reload();
+		}
+	}
+	
 	public static void main(String[] args) {
 //		new XmlDataSource();
 //		List<Painting> ps = XmlDataSource.getRawData();

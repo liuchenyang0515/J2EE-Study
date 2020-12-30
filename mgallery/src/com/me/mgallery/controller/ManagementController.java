@@ -2,6 +2,7 @@ package com.me.mgallery.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.json.JSONParser;
 
+import com.alibaba.fastjson.JSON;
 import com.me.mgallery.entity.Painting;
 import com.me.mgallery.service.PaintingService;
 import com.me.mgallery.utils.PageModel;
@@ -47,17 +50,22 @@ public class ManagementController extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		String method = request.getParameter("method");
 		if (method.equals("list")) {
+			// http://localhost:8080/management?method=list后台页面
 			this.list(request, response);
 		} else if (method.equals("delete")) {
-
+			// 删除要带上id，是在list页面列表项中点击删除触发的
+			this.delete(request, response);
 		} else if (method.equals("show_create")) { // 显示新增页面
 			// http://localhost:8080/management?method=show_create
 			this.showCreatePage(request, response);
 		} else if (method.equals("create")) {
+			// 新增后提交表单触发的
 			this.create(request, response);
 		} else if (method.equals("show_update")) {
+			// 点击修改触发的
 			this.showUpdatePage(request, response);
 		} else if (method.equals("update")) {
+			// 点击提交修改触发的
 			this.update(request, response);
 		}
 	}
@@ -202,6 +210,26 @@ public class ManagementController extends HttpServlet {
 			e.printStackTrace();
 		}
 		// 3.文件保存到服务器目录
+	}
+	
+	/**
+	 * 	客户端采用Ajax方式提交Http请求
+	 * 	Controller方法处理后不再跳转任何jsp，而是通过响应输出JSON格式字符串
+	 * 	Tips：作为Ajax与服务器交互后，得到的不是整页HTML，而是服务器处理后的数据
+	 * @param request
+	 * @param response
+	 */
+	public void delete(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("id");
+		PrintWriter printWriter = null;
+		try {
+			printWriter = response.getWriter();
+			paintingService.delete(Integer.parseInt(id));
+			printWriter.println(JSON.parseObject("{result:\"ok\"}"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			printWriter.println(JSON.parseObject("{result:\"" + e.getMessage() + "\"}"));
+		}
 	}
 
 	/**
