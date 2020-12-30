@@ -28,6 +28,19 @@ public class PaintingService {
 	public void create(Painting painting) {
 		paintingDao.create(painting);
 	}
+
+	public void update(Painting newPainting, int isPreviewModified) {
+		Painting oldPainting = paintingDao.findById(newPainting.getId()); // id的作用是拿到对应的旧的painting对象，而不是去更新它
+		if (isPreviewModified == 1) { // 1表示原始painting对象需要更新preview图片地址
+			oldPainting.setPreview(newPainting.getPreview());
+		}
+		oldPainting.setPname(newPainting.getPname());
+		oldPainting.setCategory(newPainting.getCategory());
+		oldPainting.setPrice(newPainting.getPrice());
+//		oldPainting.setId(newPainting.getId()); // id没变，不用设置
+		oldPainting.setDescription(newPainting.getDescription());
+		paintingDao.update(oldPainting);
+	}
 	
 	/**
 	 * 	按编号查询油画

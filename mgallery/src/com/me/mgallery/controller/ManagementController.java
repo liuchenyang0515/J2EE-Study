@@ -57,12 +57,79 @@ public class ManagementController extends HttpServlet {
 			this.create(request, response);
 		} else if (method.equals("show_update")) {
 			this.showUpdatePage(request, response);
+		} else if (method.equals("update")) {
+			this.update(request, response);
 		}
 	}
 
+	private void update(HttpServletRequest request, HttpServletResponse response) {
+		// 1.初始化FileLoad组件
+		FileItemFactory factory = new DiskFileItemFactory();
+		/**
+		 * FileItemFactory 用于将前端表单的数据转换为一个个FileItem对象 ServletFileUpload
+		 * 则是FileUpload组件提供Java web的Http请求解析
+		 */
+		ServletFileUpload sf = new ServletFileUpload(factory);
+		String isPreviewModified = "";
+		// 2.遍历所有FileItem
+		try {
+			List<FileItem> formData = sf.parseRequest(request);
+			Painting painting = new Painting();
+			for (FileItem fi : formData) {
+				if (fi.isFormField()) {
+					// 判断是普通输入项还是文件上传框
+					System.out.println("update后普通输入项" + fi.getFieldName() + ":" + fi.getString("utf-8"));
+					switch (fi.getFieldName()) {
+					case "pname":
+						painting.setPname(fi.getString("utf-8"));
+						break;
+					case "category":
+						painting.setCategory(Integer.parseInt(fi.getString("utf-8")));
+						break;
+					case "price":
+						painting.setPrice(Integer.parseInt(fi.getString("utf-8")));
+						break;
+					case "description":
+						painting.setDescription(fi.getString("utf-8"));
+						break;
+					case "id":// 更新后带上id才知道对应哪个painting对象，接收隐藏域的数值
+						painting.setId(Integer.parseInt(fi.getString("UTF-8")));
+						break;
+					case "isPreviewModified":
+						isPreviewModified = fi.getString("utf-8");
+						break;
+					default:
+						break;
+					}
+				} else if(isPreviewModified.equals("1")) {// 1表示重新上传了新图片
+					System.out.println("update后文件上传项" + fi.getFieldName());
+					// 3.将客户端上传到服务器的文件保存到某个目录
+					// getRealPath是tomcat运行环境下的物理地址(磁盘物理路径)
+					String path = request.getServletContext().getRealPath("/upload");
+					System.out.println("上传文件目录:" + path);
+					// 经测试，上传到了D:\\Tomcat9.0\\webapps\\mgallery\\upload
+					// String fileName = "test.jpg"; // 已存在的名字是不能被覆盖的，会报错，必须加以区分，比如随机数时间戳
+					String fileName = UUID.randomUUID().toString();// UUID和计算机本地属性相关，比如网卡、时间等等，会出现一个唯一字符串
+					// fi.getName()得到原始文件名，截取扩展名，比如xx.jpg-->.jpg
+					String suffix = fi.getName().substring(fi.getName().lastIndexOf("."));
+					// 浏览器输入http://localhost/upload/文件名.扩展名 即可访问
+					fi.write(new File(path, fileName + suffix));
+					painting.setPreview("/upload/" + fileName + suffix);
+				}
+			}
+			paintingService.update(painting, Integer.parseInt(isPreviewModified)); // 新增功能
+			response.sendRedirect("management?method=list"); // 返回列表页
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	// 展示修改页面
 	private void showUpdatePage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id = request.getParameter("id");
+		String id = request.getParameter("id"); // 点击修改的时候href="/management?method=show_update&id=${painting.id }"
 		Painting painting = paintingService.findById(Integer.parseInt(id));
 		request.setAttribute("painting", painting);
 		request.getRequestDispatcher("/WEB-INF/jsp/update.jsp").forward(request, response);

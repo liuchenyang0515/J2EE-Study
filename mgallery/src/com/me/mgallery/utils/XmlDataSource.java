@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
@@ -104,6 +105,47 @@ public class XmlDataSource {
 		}
 	}
 
+	/**
+	 * 	更新对应id的XML油画数据
+	 * @param painting	 要更新的油画数据
+	 * @throws IOException
+	 */
+	public static void update(Painting painting) {
+		SAXReader reader = new SAXReader();
+		Writer writer = null;
+		try {
+			Document document = reader.read(dataFile);
+			// 结点路径[@属性名=属性值]
+			// /root/painting[@id=x]
+			List<Node> nodes = document.selectNodes("/root/painting[@id=" + painting.getId() + "]");
+			if (nodes.size() == 0) {
+				throw new RuntimeException("id="+painting.getId()+"编号油画不存在");
+			}
+			Element p = (Element) nodes.get(0);
+			p.selectSingleNode("pname").setText(painting.getPname()); // 得到指定标签名的唯一结点
+			p.selectSingleNode("category").setText(painting.getCategory().toString());
+			p.selectSingleNode("price").setText(painting.getPrice().toString());
+			p.selectSingleNode("preview").setText(painting.getPreview());
+			p.selectSingleNode("description").setText(painting.getDescription());
+			writer = new OutputStreamWriter(new FileOutputStream(dataFile), "utf-8");
+			document.write(writer); // 文件回写
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// 底层xml更改，需要重新加载更新
+			reload();
+		}
+	}
+	
 	public static void main(String[] args) {
 //		new XmlDataSource();
 //		List<Painting> ps = XmlDataSource.getRawData();

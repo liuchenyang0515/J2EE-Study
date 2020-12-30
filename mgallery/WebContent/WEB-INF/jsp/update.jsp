@@ -15,7 +15,15 @@
 		var r1 = checkEmpty("#pname","#errPname");
 		var r2 = checkCategory('#category', '#errCategory');
 		var r3 = checkPrice('#price', '#errPrice');
-		var r4 = checkFile('#painting', '#errPainting');
+		// 本地提交前没上传新图片就没必要校验
+		// var r4 = checkFile('#painting', '#errPainting');
+		var r4 = null;
+		if ($('#isPreviewModified').val() == "1") {
+			r4 = checkFile('#painting', '#errPainting');
+		} else {
+			// 没有重新上传图片，默认校验通过
+			r4 = true;
+		}
 		var r5 = checkEmpty('#description', '#errDescription');
 		if (r1 && r2 && r3 && r4 && r5){
 			return true;
@@ -27,13 +35,19 @@
 		// 后面的EL表达式${painting.category}在服务端渲染，而$("#category").val在前端
 		$("#category").val(${painting.category});
 	})
+	// 检查预览图片
+	function selectPreview() {
+		checkFile("#painting", "#errPainting");
+		$("#preview").hide(); // 原图片隐藏
+		$("#isPreviewModified").val(1);
+	}
 </script>
 </head>
 <body>
 	<div class="container">
 		<fieldset>
 			<legend>作品名称</legend>
-			<form action="[这里写更新URL]" method="post"
+			<form action="/management?method=update" method="post"
 				autocomplete="off" enctype="multipart/form-data"
 				onsubmit = "return checkSubmit()">
 				<ul class="ulform">
@@ -57,9 +71,14 @@
 						<input id="price" name="price" onblur="checkPrice('#price','#errPrice')" value="${painting.price }"/>
 					</li>
 					<li>
-						<span>作品预览</span><span id="errPainting"></span><br/>
+						<span>作品预览</span>
+						<input type="hidden" id="isPreviewModified" name="isPreviewModified" value="0">
+						<!-- 这里value=0代表未发生变化 -->
+						<span id="errPainting"></span><br/>
 						<img id="preview" src="${painting.preview }" style="width:361px;height:240px"/><br/>
-						<input id="painting" name="painting" type="file" style="padding-left:0px;" accept="image/*"/>
+						<input id="painting" name="painting" type="file" style="padding-left:0px;" accept="image/*"
+							onchange="selectPreview()"/>
+						<!-- 为了得到原始文件，而不是每次修改都需要重新上传图片，只要客户没有重新选择文件上传，这里就不更新 -->
 					</li>
 
 					<li>
@@ -71,6 +90,8 @@
 							>${painting.description }</textarea>
 					</li>
 					<li style="text-align: center;">
+						<!-- 添加隐藏域带上id -->
+						<input type="hidden" id="id" name="id" value="${painting.id }">
 						<button type="submit" class="btn-button">提交表单</button>
 					</li>
 				</ul>

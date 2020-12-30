@@ -50,6 +50,10 @@ public class PaintingDao {
 	public void create(Painting painting) {
 		XmlDataSource.append(painting);
 	}
+	
+	public void update(Painting painting) {
+		XmlDataSource.update(painting);
+	}
 
 	public Painting findById(Integer id) {
 		List<Painting> data = XmlDataSource.getRawData();
