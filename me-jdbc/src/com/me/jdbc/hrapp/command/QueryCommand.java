@@ -13,7 +13,7 @@ public class QueryCommand implements Command {
     public void execute() {
         System.out.println("请输入部门名称：");
         Scanner in = new Scanner(System.in);
-        String pdname = in.next();
+        String pdname = in.nextLine();
         try {
             // 1.加载并注册JDBC驱动
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,6 +26,8 @@ public class QueryCommand implements Command {
             // 3.创建Statement对象
             statement = connection.createStatement();
             // 结果集
+            System.out.println("select * from employee where dname='" + pdname + "'"); // 演示sql注入攻击，部门名称输入 ' or 1=1 or '
+            // 破坏了原有筛选条件，没有处理输入单影号情况，虽然程序不会崩溃，但这个会造成数据的泄漏
             resultSet = statement.executeQuery("select * from employee where dname='" + pdname + "'");
 
             // 4.遍历查询结果
