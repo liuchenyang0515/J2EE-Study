@@ -3,10 +3,7 @@ package com.me.jdbc.hrapp.command;
 import com.me.jdbc.common.DbUtils;
 import com.me.jdbc.hrapp.entity.Employee;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -37,11 +34,15 @@ public class PaginationCommand implements Command {
                 String ename = resultSet.getString("ename");
                 Float salary = resultSet.getFloat("salary");
                 String dname = resultSet.getString("dname");
+                // JDBC获取日期使用java.sql.Date,其继承自java.util.Date
+                // 所以两者互相兼容
+                Date hiredate = resultSet.getDate("hiredate");
                 Employee emp = new Employee();
                 emp.setEno(eno);
                 emp.setEname(ename);
                 emp.setSalary(salary);
                 emp.setDname(dname);
+                emp.setHiredate(hiredate);
                 list.add(emp); // 放到集合，即使结果集关闭，数据仍然存在，且集合方便java进行后续处理
             }
             System.out.println(list.size());
