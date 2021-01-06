@@ -21,7 +21,7 @@ public class DruidSample {
         String propertyFile = DruidSample.class.getResource("/druid-config.properties").getPath();
         // 空格->%20，比如c:\java code会变成c:\java%20code
         try {
-            propertyFile = new URLDecoder().decode(propertyFile, "UTF-8");
+            propertyFile = URLDecoder.decode(propertyFile, "UTF-8");
             properties.load(new FileInputStream(propertyFile));
         } catch (Exception e) {
             e.printStackTrace();
