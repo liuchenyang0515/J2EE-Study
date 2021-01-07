@@ -5,6 +5,14 @@
 	<groupId>com.me</groupId>
 	<artifactId>maven-first</artifactId>
 	<version>1.0.0-RELEASE</version>
+	<repositories>
+		<repository>
+			<!-- 创建私服的地址，如果阿里云私服没有才去官网下载 -->
+			<id>aliyun</id>
+			<name>aliyun</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>mysql</groupId>
