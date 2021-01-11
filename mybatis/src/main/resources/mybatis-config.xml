@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 可以从这里default切换测试和生产环境-->
+    <environments default="prd">
+        <environment id="dev">
+            <!-- 采用JDBC方式对数据库事务进行commit/rollback -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- 采用连接池方式管理数据库连接 -->
+            <dataSource type="POOLED">
+                <!-- 5.0的mysql就没有cj-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="1q1q1q1q"/>
+            </dataSource>
+        </environment>
+        <environment id="prd">
+            <!-- 采用JDBC方式对数据库事务进行commit/rollback -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- 采用连接池方式管理数据库连接 -->
+            <dataSource type="POOLED">
+                <!-- 5.0的mysql就没有cj-->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.1.155:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="1q1q1q1q"/>
+            </dataSource>
+        </environment>
+    </environments>
+</configuration>
