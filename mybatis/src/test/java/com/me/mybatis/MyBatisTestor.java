@@ -1,5 +1,6 @@
 package com.me.mybatis;
 
+import com.me.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -36,6 +37,20 @@ public class MyBatisTestor {
                 // 这些是配置的底层机制不同
                 sqlSession.close();
             }
+        }
+    }
+
+    @Test
+    public void testMyBatisUtils() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Connection connection = sqlSession.getConnection();
+            System.out.println(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
         }
     }
 }
