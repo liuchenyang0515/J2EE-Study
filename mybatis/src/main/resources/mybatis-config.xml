@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 可以从这里default切换测试和生产环境-->
-    <environments default="prd">
+    <environments default="dev">
         <environment id="dev">
             <!-- 采用JDBC方式对数据库事务进行commit/rollback -->
             <transactionManager type="JDBC"></transactionManager>
@@ -24,6 +24,7 @@
             <dataSource type="POOLED">
                 <!-- 5.0的mysql就没有cj-->
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <!-- 这个ip是瞎写的，为了单元测试失败样例 -->
                 <property name="url" value="jdbc:mysql://192.168.1.155:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="1q1q1q1q"/>
