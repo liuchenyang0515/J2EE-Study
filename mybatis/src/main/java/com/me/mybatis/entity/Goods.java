@@ -8,7 +8,7 @@ public class Goods {
     private Float currentPrice; // 当前价格
     private Float discount; // 折扣率
     private Integer isFreeDelivery; // 是否包邮，1-包邮 0-不包邮
-    private Integer category; // 分类编号
+    private Integer categoryId; // 分类编号
 
     public Integer getGoodsId() {
         return goodsId;
@@ -66,11 +66,11 @@ public class Goods {
         this.isFreeDelivery = isFreeDelivery;
     }
 
-    public Integer getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Integer category) {
-        this.category = category;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -1,5 +1,6 @@
 package com.me.mybatis;
 
+import com.me.mybatis.dto.GoodsDTO;
 import com.me.mybatis.entity.Goods;
 import com.me.mybatis.utils.MyBatisUtils;
 import com.mysql.cj.Session;
@@ -120,6 +121,23 @@ public class MyBatisTestor {
             List<Map> list = sqlSession.selectList("goods.selectGoodsMap");
             for (Map map : list) {
                 System.out.println(map);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectGoodsDTO() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<GoodsDTO> list = sqlSession.selectList("goods.selectGoodsDTO");
+            for (GoodsDTO g : list) {
+                // 这里用调试来看，只打印了一个title，调试看到所有字段比较方便
+                System.out.println(g.getGoods().getTitle());
             }
         } catch (Exception e) {
             throw e;
