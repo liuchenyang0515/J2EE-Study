@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <!-- 驼峰命名转换,goods_id=>goodsId，这样能对应实体类-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
     <!-- 可以从这里default切换测试和生产环境-->
     <environments default="dev">
         <environment id="dev">
@@ -31,4 +35,7 @@
             </dataSource>
         </environment>
     </environments>
+    <mappers>
+        <mapper resource="mappers/goods.xml"></mapper>
+    </mappers>
 </configuration>

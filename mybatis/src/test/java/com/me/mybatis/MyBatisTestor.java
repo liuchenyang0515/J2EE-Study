@@ -1,6 +1,8 @@
 package com.me.mybatis;
 
+import com.me.mybatis.entity.Goods;
 import com.me.mybatis.utils.MyBatisUtils;
+import com.mysql.cj.Session;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.util.List;
 
 // JUNIT单元测试类
 public class MyBatisTestor {
@@ -52,5 +55,22 @@ public class MyBatisTestor {
         } finally {
             MyBatisUtils.closeSession(sqlSession);
         }
+    }
+
+    @Test
+    public void testSelectAll() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<Goods> list = sqlSession.selectList("goods.selectAll");// 语法：namespace命名空间前缀.SQL语句对应标签的id
+            for (Goods g : list) {
+                System.out.println(g.getTitle());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+
     }
 }
