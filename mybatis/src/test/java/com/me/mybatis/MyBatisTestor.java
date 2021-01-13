@@ -111,4 +111,20 @@ public class MyBatisTestor {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testSelectGoodsMap() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<Map> list = sqlSession.selectList("goods.selectGoodsMap");
+            for (Map map : list) {
+                System.out.println(map);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }

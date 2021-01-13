@@ -19,8 +19,19 @@
         select *
         from t_goods
         where current_price between #{min} and #{max}
-        order by current_price
-        limit 0, #{limit}
+        order by current_price limit 0, #{limit}
+    </select>
+    <!-- 利用LinkedHashMap保存多表关联结果
+        MyBatis会将每一条记录包装为LinkedHashMap对象
+        key是字段名，value是字段对应的值，字段类型根据表结构进行自动判断
+        优点：易于扩展，易于使用
+        缺点：太过灵活，无法进行编译时检查
+    -->
+    <select id="selectGoodsMap" resultType="java.util.LinkedHashMap">
+        select g.*, c.category_name, '1' as test
+        from t_goods g,
+             t_category c
+        where g.category_id = c.category_id
     </select>
 
 </mapper>
