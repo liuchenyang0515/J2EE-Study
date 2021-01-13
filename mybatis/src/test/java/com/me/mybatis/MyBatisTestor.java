@@ -12,7 +12,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
+import java.sql.ParameterMetaData;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // JUNIT单元测试类
 public class MyBatisTestor {
@@ -72,5 +75,40 @@ public class MyBatisTestor {
             MyBatisUtils.closeSession(sqlSession);
         }
 
+    }
+
+    @Test
+    public void testSelectById() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Goods goods = sqlSession.selectOne("goods.selectById", 1602); // 第二个参数要和goods.xml的parameterType保持一致
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testSelectByPriceRange() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Map<String, Integer> param = new HashMap<>();
+            param.put("min", 100);
+            param.put("max", 500);
+            param.put("limit", 10);
+            // 当没有写命名空间的时候，必须保证sql的id全局唯一，否则就需要加上goods
+            List<Goods> list = sqlSession.selectList("selectByPriceRange", param);
+            for (Goods g : list) {
+                System.out.println(g.getTitle() + ":" + g.getCurrentPrice());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
     }
 }
