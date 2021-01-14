@@ -3,7 +3,6 @@ package com.me.mybatis;
 import com.me.mybatis.dto.GoodsDTO;
 import com.me.mybatis.entity.Goods;
 import com.me.mybatis.utils.MyBatisUtils;
-import com.mysql.cj.Session;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
-import java.sql.ParameterMetaData;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,4 +171,41 @@ public class MyBatisTestor {
         }
     }
 
+    @Test
+    public void testUpdate() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            Goods goods = sqlSession.selectOne("goods.selectById", 739);
+            goods.setTitle("更新测试商品");
+            sqlSession.update("goods.update", goods);
+            sqlSession.commit(); // 提交事务数据
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback(); // 回滚事务
+            }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    public void testDelete() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            int deleteNum = sqlSession.delete("goods.delete", 739);
+            sqlSession.commit(); // 提交事务数据
+        } catch (Exception e) {
+            if (sqlSession != null) {
+                sqlSession.rollback(); // 回滚事务
+            }
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }

@@ -82,4 +82,22 @@
         <!--            select last_insert_id()-->
         <!--        </selectKey>-->
     </insert>
+
+    <update id="update" parameterType="com.me.mybatis.entity.Goods">
+        update t_goods
+        set title=#{title},
+            sub_title=#{subTitle},
+            original_cost=#{originalCost},
+            current_price=#{currentPrice},
+            discount=#{discount},
+            is_free_delivery=#{isFreeDelivery},
+            category_id=#{categoryId}
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete
+        from t_goods
+        where goods_id = #{value}
+    </delete>
 </mapper>
