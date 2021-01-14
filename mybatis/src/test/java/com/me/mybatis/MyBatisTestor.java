@@ -208,4 +208,36 @@ public class MyBatisTestor {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testSelectByTitle() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            Map<String, String> param = new HashMap<>();
+            // 如果SQL没做预处理，可以SQL攻击，${}文本转换改为#{}预编译转换即可防止
+            /**
+             * ${}原文传值
+             * select * from t_goods
+             *      where title = '' or 1=1 or title='【德国】爱他美婴幼儿配方奶粉1段800g*2罐 铂金版'
+             *
+             * #{}预编译
+             * select * from t_goods
+             *      where title = "'' or 1=1 or title='【德国】爱他美婴幼儿配方奶粉1段800g*2罐 铂金版'"
+             */
+
+//            param.put("title", "'' or 1=1 or title='【德国】爱他美婴幼儿配方奶粉1段800g*2罐 铂金版'");
+            param.put("title", "【德国】爱他美婴幼儿配方奶粉1段800g*2罐 铂金版");
+            param.put("order", " order by title desc"); // 这就必须${}原文传，否则就当做字符串了，没法排序
+            // 这只是一个演示，实际排序不会写在这里，注意${}决不允许前端输入控制
+            List<Goods> list = sqlSession.selectList("goods.selectByTitle", param);
+            for (Goods g : list) {
+                System.out.println(g.getTitle() + ":" + g.getCurrentPrice());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }
