@@ -3,14 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goods">
-    <!-- 缓存清空策略
-        eviction：缓存策略
-        flushInterval：刷新间隔，达到间隔时间自动清空缓存
-        size：最大缓存对象个数
-        readOnly: 缓存是否只读
-     -->
+    <!-- 开启了二级缓存
+        eviction是缓存的清除策略，当缓存对象数量达到上限后，自动触发对应算法对缓存对象清除
+        1.LRU - 最近最久未使用：移除最长时间不被使用的对象
+        O1  O2  O3  O4  ..  O512
+        14  99  83  1       893
+        2.FIFO - 先进先出：按对象进入缓存的顺序来移除他们
+        3.SOFT - 软引用：移除基于垃圾收集器状态和软引用规则的对象
+        4.WEAK - 弱引用：更积极的移除基于垃圾收集器状态和弱引用规则的对象。
+
+        flushInterval  代表间隔多长时间自动清空缓存，单位毫秒，600000毫秒=10分钟
+        size  缓存存储上限，用于保存对象或集合(1个集合算一个对象)的数量上限
+        readOnly  设置为true，代表返回只读缓存，每次从缓存取出的是缓存对象本身，这种执行效率较高
+                  设置为false，代表每次取出的是缓存对象的“副本”，每一次取出的对象都是不同的，这种安全性较高
+
+    -->
     <cache eviction="LRU" flushInterval="600000" size="512" readOnly="true"/>
-    <select id="selectAll" resultType="com.me.mybatis.entity.Goods">
+    <!-- useCache="false"代表不使用缓存 -->
+    <select id="selectAll" resultType="com.me.mybatis.entity.Goods" useCache="false">
         select *
         from t_goods
         order by goods_id desc limit 10
@@ -78,16 +88,20 @@
 
         selectKey适用于所有数据库，但是编写麻烦
      -->
+    <!--    <insert id="insert" parameterType="com.me.mybatis.entity.Goods"-->
+    <!--            useGeneratedKeys="true"-->
+    <!--            keyProperty="goodsId"-->
+    <!--            keyColumn="goods_id">-->
+
+    <!-- flushCache="true"在sql执行后强制清空缓存,不用等待commit之后才清空，效果和commit相同 -->
     <insert id="insert" parameterType="com.me.mybatis.entity.Goods"
-            useGeneratedKeys="true"
-            keyProperty="goodsId"
-            keyColumn="goods_id">
+            flushCache="true">
         insert into t_goods(title, sub_title, original_cost, current_price, discount, is_free_delivery, category_id)
         values (#{title}, #{subTitle}, #{originalCost}, #{currentPrice}, #{discount}, #{isFreeDelivery}, #{categoryId})
         <!-- keyProperty对应哪个属性值，order表示在insert语句之前还是之后执行，最后把数据回填到keyProperty对应字段中 -->
-        <!--        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">-->
-        <!--            select last_insert_id()-->
-        <!--        </selectKey>-->
+        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">
+            select last_insert_id()
+        </selectKey>
     </insert>
 
     <update id="update" parameterType="com.me.mybatis.entity.Goods">
