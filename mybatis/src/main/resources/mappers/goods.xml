@@ -106,4 +106,18 @@
         from t_goods
         where title = #{title} ${order}
     </select>
+
+    <select id="dynamicSQL" parameterType="java.util.Map" resultType="com.me.mybatis.entity.Goods">
+        select * from t_goods
+        <!-- 如果写where而不是<where>，则需要加上1=1，因为<if>里面的sql条件都有and，
+        这里用<where>根据查询条件，动态筛选语句, 保证语法正确，可以动态去掉前面的and -->
+        <where>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="currentPrice != null">
+                and current_price &lt; #{currentPrice}
+            </if>
+        </where>
+    </select>
 </mapper>
