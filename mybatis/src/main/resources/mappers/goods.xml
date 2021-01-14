@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="goods">
+    <!-- 缓存清空策略
+        eviction：缓存策略
+        flushInterval：刷新间隔，达到间隔时间自动清空缓存
+        size：最大缓存对象个数
+        readOnly: 缓存是否只读
+     -->
+    <cache eviction="LRU" flushInterval="600000" size="512" readOnly="true"/>
     <select id="selectAll" resultType="com.me.mybatis.entity.Goods">
         select *
         from t_goods

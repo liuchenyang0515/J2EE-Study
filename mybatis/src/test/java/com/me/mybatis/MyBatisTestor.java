@@ -261,4 +261,68 @@ public class MyBatisTestor {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testLv1Cache() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            // 第一次查询后把结果缓存到JVM内存中，第二次直接从内存获取
+            Goods goods1 = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode() + ":" + goods1.hashCode()); // hash一样，相同的内存区域
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+
+        // 一级缓存的生存周期范围是sqlSession，这里是第二个sqlSession，会重新查询
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            sqlSession.commit(); // commit提交时对该namespace缓存强制清空，这样两个goods的hashCode就不一样
+            // 第一次查询后把结果缓存到JVM内存中，第二次直接从内存获取
+            Goods goods1 = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode() + ":" + goods1.hashCode()); // 同一个会话相同，两个会话中的hashcode就不会相同，
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+
+    @Test
+    public void testLv2Cache() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode());
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+
+        // 二级缓存已开启，缓存周期namespace, 缓存命中率提高
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // 获取对应商品原始信息，在此基础上修改
+            Goods goods = sqlSession.selectOne("goods.selectById", 1603);
+            System.out.println(goods.hashCode());
+            System.out.println(goods.getTitle());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }
