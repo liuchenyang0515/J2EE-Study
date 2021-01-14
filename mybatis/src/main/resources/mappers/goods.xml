@@ -61,11 +61,25 @@
         where g.category_id = c.category_id
     </select>
 
-    <insert id="insert" parameterType="com.me.mybatis.entity.Goods">
+    <!--
+        selectKey标签需明确编写获取最新主键的SQL语句
+        useGeneratedKeys属性会自动根据驱动生成对应SQL语句，数据库类型变化也会跟着自动变化
+
+        selectKey适用于所有的关系型数据库
+        useGeneratedKeys只支持“自增主键”类型的数据库，使用简单，比如MYSQL，SQLServer，但是Oracle、DB2不支持，所以不能使用
+        在Oracle中只能用selectKey了
+
+        selectKey适用于所有数据库，但是编写麻烦
+     -->
+    <insert id="insert" parameterType="com.me.mybatis.entity.Goods"
+            useGeneratedKeys="true"
+            keyProperty="goodsId"
+            keyColumn="goods_id">
         insert into t_goods(title, sub_title, original_cost, current_price, discount, is_free_delivery, category_id)
         values (#{title}, #{subTitle}, #{originalCost}, #{currentPrice}, #{discount}, #{isFreeDelivery}, #{categoryId})
-        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">
-            select last_insert_id()
-        </selectKey>
+        <!-- keyProperty对应哪个属性值，order表示在insert语句之前还是之后执行，最后把数据回填到keyProperty对应字段中 -->
+        <!--        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">-->
+        <!--            select last_insert_id()-->
+        <!--        </selectKey>-->
     </insert>
 </mapper>
