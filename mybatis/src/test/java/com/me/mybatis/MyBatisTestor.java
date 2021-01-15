@@ -325,4 +325,20 @@ public class MyBatisTestor {
             MyBatisUtils.closeSession(sqlSession);
         }
     }
+
+    @Test
+    public void testOneToMany() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            List<Goods> list = sqlSession.selectList("goods.selectOneToMany");
+            for (Goods goods : list) {
+                System.out.println(goods.getTitle() + ":" + goods.getGoodsDetails().size());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            MyBatisUtils.closeSession(sqlSession);
+        }
+    }
 }

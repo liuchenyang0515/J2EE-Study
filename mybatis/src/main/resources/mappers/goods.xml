@@ -141,4 +141,25 @@
             </if>
         </where>
     </select>
+    <!--
+        resultMap可用于说明一对多或者多对一的映射逻辑
+        id是resultMap属性引用的标志
+        type指向One的实体(Goods)
+    -->
+    <resultMap id="rmGoods1" type="com.me.mybatis.entity.Goods">
+        <!-- 映射goods对象的主键到goods_id字段 -->
+        <id column="goods_id" property="goodsId"></id>
+        <!--
+            collection的含义是在
+            select * from t_goods limit 0, 1 得到结果后，对所有的Goods对象遍历得到goods_id字段值，
+            并代入到goodsDetail命名空间的findByGoodsId的SQL中查询，
+            将得到的"商品详情"集合赋值给goodsDetails
+        -->
+        <collection property="goodsDetails" select="goodsDetail.selectByGoodsId"
+                    column="goods_id"></collection>
+    </resultMap>
+    <select id="selectOneToMany" resultMap="rmGoods1">
+        select *
+        from t_goods limit 0, 1
+    </select>
 </mapper>
