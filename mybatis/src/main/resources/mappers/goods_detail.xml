@@ -5,6 +5,18 @@
 <mapper namespace="goodsDetail">
     <select id="selectByGoodsId" parameterType="Integer"
             resultType="com.me.mybatis.entity.GoodsDetail">
-        select * from t_goods_detail where goods_id = #{value}
+        select *
+        from t_goods_detail
+        where goods_id = #{value}
+    </select>
+    <resultMap id="rmGoodsDetail" type="com.me.mybatis.entity.GoodsDetail">
+        <id column="gd_id" property="gdId"></id>
+        <result column="goods_id" property="goodsId"></result>
+        <!-- property="goods"是因为GoodsDetail有goods对象，最终查到的对象会赋值给这个goods对象 -->
+        <association property="goods" select="goods.selectById" column="goods_id"></association>
+    </resultMap>
+    <select id="selectManyToOne" resultMap="rmGoodsDetail">
+        select *
+        from t_goods_detail limit 0, 1
     </select>
 </mapper>
