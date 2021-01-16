@@ -162,4 +162,8 @@
         select *
         from t_goods limit 0, 2
     </select>
+    
+    <select id="selectPage" resultType="com.me.mybatis.entity.Goods">
+        select * from t_goods where current_price &lt; 1000
+    </select>
 </mapper>

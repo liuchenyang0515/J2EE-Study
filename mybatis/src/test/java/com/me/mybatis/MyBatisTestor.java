@@ -1,5 +1,7 @@
 package com.me.mybatis;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.me.mybatis.dto.GoodsDTO;
 import com.me.mybatis.entity.Goods;
 import com.me.mybatis.entity.GoodsDetail;
@@ -359,6 +361,35 @@ public class MyBatisTestor {
             throw e;
         } finally {
             MyBatisUtils.closeSession(sqlSession);
+        }
+    }
+
+    @Test
+    /**
+     * PageHelper分页查询
+     */
+    public void testSelectPage() {
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = MyBatisUtils.openSession();
+            // startPage方法会自动将下一次查询进行分页
+            // 因为配置了<property name="reasonable" value="true"/>，所以这里写0也可以，查询第0页
+            PageHelper.startPage(2, 10); // 对于筛选后的结果集，查询第二页，每页10条记录
+            Page<Goods> page = (Page) sqlSession.selectList("goods.selectPage");
+            System.out.println("总页数：" + page.getPages());
+            System.out.println("总记录数：" + page.getTotal());
+            System.out.println("开始行号：" + page.getStartRow());
+            System.out.println("结束行号：" + page.getEndRow());
+            System.out.println("当前页码：" + page.getPageNum());
+            List<Goods> data = page.getResult();
+            for (Goods g : data) {
+                System.out.println(g.getTitle());
+            }
+            System.out.println("");
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            sqlSession.close();
         }
     }
 }

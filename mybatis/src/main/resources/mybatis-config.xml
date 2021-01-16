@@ -7,6 +7,28 @@
         <!-- 驼峰命名转换,goods_id=>goodsId，这样能对应实体类-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <!-- 启用Pagehelper分页插件
+            https://pagehelper.github.io/docs/howtouse/
+            可以在这里查看分页插件参数介绍
+     -->
+    <plugins>
+        <!-- 只有在这里配置，mybatis才会自动分页处理-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--
+                针对数据库方言的分页方式，可改为oracle
+                分页插件会自动检测当前的数据库连接，自动选择合适的分页方式
+                为了严谨，这里手动配置一下，设置数据库类型
+             -->
+            <property name="helperDialect" value="mysql"/>
+            <!--
+                分页合理化
+                查询页数小于0，自动查询第一页，查询页数大于总页数时，会查询最后一页。
+                默认为false
+             -->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
     <!-- 可以从这里default切换测试和生产环境-->
     <environments default="dev">
         <environment id="dev">
@@ -16,7 +38,8 @@
             <dataSource type="POOLED">
                 <!-- 5.0的mysql就没有cj-->
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="1q1q1q1q"/>
             </dataSource>
@@ -29,7 +52,8 @@
                 <!-- 5.0的mysql就没有cj-->
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <!-- 这个ip是瞎写的，为了单元测试失败样例 -->
-                <property name="url" value="jdbc:mysql://192.168.1.155:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="url"
+                          value="jdbc:mysql://192.168.1.155:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="1q1q1q1q"/>
             </dataSource>
