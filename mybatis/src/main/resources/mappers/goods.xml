@@ -162,8 +162,46 @@
         select *
         from t_goods limit 0, 2
     </select>
-    
+
     <select id="selectPage" resultType="com.me.mybatis.entity.Goods">
-        select * from t_goods where current_price &lt; 1000
+        select *
+        from t_goods
+        where current_price &lt; 1000
     </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into t_goods(title, sub_title, original_cost, current_price, discount, is_free_delivery, category_id)
+        values
+        <!-- 这个collection="list"的list是mybatis强制要求，不能随意修改
+            separator="," 数据用逗号分隔，最后一条记录不会增加","
+            这里每个item就是一个Goods实体对象
+         -->
+
+        <!--
+            批量插入数据的局限:
+            1.无法获得插入数据的id
+            2.批量生成的SQL太长，可能会被服务器拒绝
+            建议提前做好压力测试
+            解决方法：比如1000W数据，可以分段插入，1000组10000条数据来执行，这肯定比1000W条数据单条插入快得多
+
+        -->
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.title}, #{item.subTitle}, #{item.originalCost}, #{item.currentPrice},
+            #{item.discount}, #{item.isFreeDelivery}, #{item.categoryId})
+        </foreach>
+    </insert>
+
+    <!-- 批量删除可以考虑类似于下面形式
+        delete from t_goods where goods_id in (1920, 1921)
+        尽量不要拆分成多条SQL删除语句
+    -->
+    <delete id="batchDelete" parameterType="java.util.List">
+        delete
+        from t_goods
+        where goods_id in
+        <!-- open="(" close=")"是为了动态生成in子句，比如in (1901, 1902) -->
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>
