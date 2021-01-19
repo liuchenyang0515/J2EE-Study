@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="apple2,apple7" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士2号"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+<!--        <property name="price" value="29.8"/>-->
+    </bean>
+    <!-- 没有id与name的bean默认使用类名全称作为bean标识 -->
+<!--    <bean class="com.imooc.spring.ioc.entity.Apple">-->
+<!--        <constructor-arg name="title" value="红富士3号"/>-->
+<!--        <constructor-arg name="color" value="红色"/>-->
+<!--        <constructor-arg name="origin" value="欧洲"/>-->
+<!--        <constructor-arg name="price" value="29.8"/>-->
+<!--    </bean>-->
+</beans>

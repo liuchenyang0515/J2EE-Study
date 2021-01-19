@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--bean标签默认通过默认构造方法创建对象-->
+    <bean id="apple1" class="com.imooc.spring.ioc.entity.Apple">
+
+    </bean>
+    <!--使用带参构造方法实例化对象-->
+    <bean name="apple2" class="com.imooc.spring.ioc.entity.Apple">
+        <constructor-arg name="title" value="红富士"/>
+        <constructor-arg name="color" value="红色"/>
+        <constructor-arg name="origin" value="欧洲"/>
+        <constructor-arg name="price" value="19.8"/>
+    </bean>
+
+    <bean id="apple3" class="com.imooc.spring.ioc.entity.Apple">
+        <constructor-arg index="0" value="红富士"/>
+        <constructor-arg index="1" value="欧洲"/>
+        <constructor-arg index="2" value="红色"/>
+        <constructor-arg index="3" value="19.8"/>
+    </bean>
+
+    <!--利用静态工厂获取对象-->
+    <bean id="apple4" class="com.imooc.spring.ioc.factory.AppleStaticFactory"
+          factory-method="createSweetApple"/>
+
+    <!--利用工厂实例方法获取对象-->
+    <bean id="factoryInstance" class="com.imooc.spring.ioc.factory.AppleFactoryInstance"/>
+    <bean id="apple5" factory-bean="factoryInstance" factory-method="createSweetApple"/>
+</beans>
