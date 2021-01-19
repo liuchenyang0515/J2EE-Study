@@ -24,6 +24,7 @@
         <property name="price" value="9.8"/>
     </bean>
 
+    <!-- 依赖的sourApple是怎么赋值的？就是通过反射依赖注入的 -->
     <bean id="andy" class="com.imooc.spring.ioc.entity.Child">
         <constructor-arg name="name" value="安迪"/>
         <constructor-arg name="apple" ref="sourApple"/>
