@@ -10,19 +10,19 @@
         <constructor-arg name="price" value="3085"/>
     </bean>
 
-<!--    <bean class="com.imooc.spring.ioc.entity.Computer">-->
-<!--        <constructor-arg name="brand" value="微星"/>-->
-<!--        <constructor-arg name="type" value="台式机"/>-->
-<!--        <constructor-arg name="sn" value="8389280012"/>-->
-<!--        <constructor-arg name="price" value="3000"/>-->
-<!--    </bean>-->
+    <bean class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="brand" value="微星"/>
+        <constructor-arg name="type" value="台式机"/>
+        <constructor-arg name="sn" value="8389280012"/>
+        <constructor-arg name="price" value="3000"/>
+    </bean>
 
-<!--    <bean class="com.imooc.spring.ioc.entity.Computer">-->
-<!--        <constructor-arg name="brand" value="华硕"/>-->
-<!--        <constructor-arg name="type" value="笔记本"/>-->
-<!--        <constructor-arg name="sn" value="9089380012"/>-->
-<!--        <constructor-arg name="price" value="6000"/>-->
-<!--    </bean>-->
+    <bean class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="brand" value="华硕"/>
+        <constructor-arg name="type" value="笔记本"/>
+        <constructor-arg name="sn" value="9089380012"/>
+        <constructor-arg name="price" value="6000"/>
+    </bean>
 
     <bean id="company" class="com.imooc.spring.ioc.entity.Company">
         <property name="rooms">
