@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="c1" class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="brand" value="联想"/>
+        <constructor-arg name="type" value="台式机"/>
+        <constructor-arg name="sn" value="8389283012"/>
+        <constructor-arg name="price" value="3085"/>
+    </bean>
+
+<!--    <bean class="com.imooc.spring.ioc.entity.Computer">-->
+<!--        <constructor-arg name="brand" value="微星"/>-->
+<!--        <constructor-arg name="type" value="台式机"/>-->
+<!--        <constructor-arg name="sn" value="8389280012"/>-->
+<!--        <constructor-arg name="price" value="3000"/>-->
+<!--    </bean>-->
+
+<!--    <bean class="com.imooc.spring.ioc.entity.Computer">-->
+<!--        <constructor-arg name="brand" value="华硕"/>-->
+<!--        <constructor-arg name="type" value="笔记本"/>-->
+<!--        <constructor-arg name="sn" value="9089380012"/>-->
+<!--        <constructor-arg name="price" value="6000"/>-->
+<!--    </bean>-->
+
+    <bean id="company" class="com.imooc.spring.ioc.entity.Company">
+        <property name="rooms">
+            <set>
+                <value>2001-总裁办</value>
+                <value>2003-总经理办公室</value>
+                <value>2010-研发部会议室</value>
+                <value>2010-研发部会议室</value>
+            </set>
+        </property>
+        <property name="computers">
+            <map>
+                <entry key="dev-88172" value-ref="c1"/>
+                <entry key="dev-88173">
+                    <!-- 内置bean，如果其他对象引用，需要和c1一样写在外面给个id -->
+                    <bean class="com.imooc.spring.ioc.entity.Computer">
+                        <constructor-arg name="brand" value="联想"/>
+                        <constructor-arg name="type" value="笔记本"/>
+                        <constructor-arg name="sn" value="1280258012"/>
+                        <constructor-arg name="price" value="5060"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+
+        <property name="info">
+            <props>
+                <prop key="phone">010-12345678</prop>
+                <prop key="address">北京市朝阳区XX路XX大厦</prop>
+                <prop key="website">http://www.xxx.com</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
