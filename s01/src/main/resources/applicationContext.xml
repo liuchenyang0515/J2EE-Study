@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 在IoC容器启动时,自动由Spring实例化Apple对象,取名sweetApple放入到容器中 -->
+    <bean id="sweetApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士"></property>
+        <property name="origin" value="欧洲"></property>
+        <property name="color" value="红色"></property>
+    </bean>
+
+    <bean id="sourApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="青苹果"></property>
+        <property name="origin" value="中亚"></property>
+        <property name="color" value="绿色"></property>
+    </bean>
+
+    <bean id="softApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="金帅"></property>
+        <property name="origin" value="中国"></property>
+        <property name="color" value="黄色"></property>
+    </bean>
+
+    <bean id="rdApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="蛇果"></property>
+        <property name="origin" value="美国"></property>
+        <property name="color" value="红色"></property>
+    </bean>
+
+    <bean id="lily" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="莉莉"/>
+        <property name="apple" ref="softApple"/>
+    </bean>
+
+    <bean id="andy" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="安迪"/>
+        <property name="apple" ref="rdApple"/>
+    </bean>
+
+    <bean id="luna" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="露娜"/>
+        <property name="apple" ref="sweetApple"/>
+    </bean>
+</beans>
