@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="sweetApple" class="com.imooc.spring.ioc.entity.Apple">
+        <!-- IoC容器自动利用反射机制运行时调用setXXX方法为属性赋值 -->
+        <property name="title" value="红富士"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+        <property name="price" value="19.8"/>
+    </bean>
+
+    <bean id="lily" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="莉莉"/>
+        <!-- 利用ref注入依赖对象 -->
+        <property name="apple" ref="sweetApple"/>
+    </bean>
+
+    <bean id="sourApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="青苹果"/>
+        <property name="color" value="绿色"/>
+        <property name="origin" value="中亚"/>
+        <property name="price" value="9.8"/>
+    </bean>
+
+    <bean id="andy" class="com.imooc.spring.ioc.entity.Child">
+        <constructor-arg name="name" value="安迪"/>
+        <constructor-arg name="apple" ref="sourApple"/>
+    </bean>
+
+</beans>
