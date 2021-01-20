@@ -10,9 +10,9 @@ public class SpringApplication {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         UserService userService = context.getBean("userService", UserService.class);
         System.out.println(userService.getUdao());
-//
-//        DepartmentService departmentService = context.getBean("departmentService", DepartmentService.class);
-//        departmentService.joinDepartment();
+
+        DepartmentService departmentService = context.getBean("departmentService", DepartmentService.class);
+        departmentService.joinDepartment();
 
 //        String[] ids = context.getBeanDefinitionNames();
 //        for(String id : ids){

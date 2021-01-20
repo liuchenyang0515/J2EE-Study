@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-//@Service
+@Service
 public class DepartmentService {
     /**
      * 1. @Resource设置name属性,则按name在IoC容器中将bean注入
@@ -14,12 +14,16 @@ public class DepartmentService {
      * 2.2 按属性名未匹配,则按类型进行匹配,同@Autowired,需加入@Primary解决类型冲突
      * 使用建议:在使用@Resource对象时推荐设置name或保证属性名与bean名称一致
      */
-//    @Resource(name = "userDao")
+//    @Resource(name = "userOracleDao")
 //    private IUserDao udao;
+    // =====等同于下面
+//    @Resource
+//    private IUserDao userOracleDao;
+
     @Resource
-    private IUserDao udao;
+    private IUserDao userDao;
 
     public void joinDepartment(){
-        System.out.println(udao);
+        System.out.println(userDao);
     }
 }
