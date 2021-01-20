@@ -10,21 +10,22 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-//@Scope("prototype")//设置单例/多例,XML中 bean scope完全相同
+@Scope("prototype")//设置单例/多例,XML中 bean scope完全相同
 public class UserService {
-//    @Value("${metaData}")//读取config.properties的metaData属性值
-//    private String metaData ;
-//    @Value("${connection.password}")
-//    private String password;
+    @Value("${metaData}")//读取config.properties的metaData属性值
+    private String metaData ;
+    @Value("${connection.password}")
+    private String password;
 //
     public UserService(){
         System.out.println("正在创建UserService:" + this);
     }
 //
-//    @PostConstruct //XML中bean init-method完全相同
-//    public void init(){
-//        System.out.println("初始化UserService对象,metaData=" + metaData);
-//    }
+    @PostConstruct //XML中bean init-method完全相同
+    public void init(){
+        System.out.println("初始化UserService对象,metaData=" + metaData);
+//        System.out.println("初始化UserService对象");
+    }
 
     //Spring IoC容器会自动通过反射技术将属性private修饰符自动改为public,直接进行赋值,然后改回到private
     //@Autowired写在属性上不执行set方法
