@@ -9,5 +9,6 @@ public class SpringApplication {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         UserService userService = context.getBean("userService", UserService.class);
         userService.createUser();
+        userService.generateRandomPassword("MD5", 16);
     }
 }

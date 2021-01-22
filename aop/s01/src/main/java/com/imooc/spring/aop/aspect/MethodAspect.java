@@ -15,5 +15,11 @@ public class MethodAspect {
         String className = joinPoint.getTarget().getClass().getName();// 获取目标类的名称
         String methodName = joinPoint.getSignature().getName(); // 获取目标方法名称
         System.out.println("----->" + now + ":" + className + "." + methodName);
+        Object[] args = joinPoint.getArgs();
+        System.out.println("---->参数个数：" + args.length);
+        for (Object arg : args) {
+            System.out.println("------>参数：" + arg);
+        }
+
     }
 }
