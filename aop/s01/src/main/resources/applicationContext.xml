@@ -22,8 +22,17 @@
     <bean id="methodAspect" class="com.imooc.spring.aop.aspect.MethodAspect"></bean>
     <aop:config>
         <!-- PointCut 切点，使用execution表达式描述切面的作用范围 -->
-        <!-- execution(public * com.imooc..*.*(..)) 说明切面作用在com.imooc包下的所有类的所有方法上 -->
-        <aop:pointcut id="pointcut" expression="execution(public * com.imooc..*.*(..))"/>
+        <!-- execution(public * com.imooc..*.*(..)) 说明切面作用在com.imooc包下的所有类的所有方法上,这种最常见 -->
+                <aop:pointcut id="pointcut" expression="execution(public * com.imooc..*.*(..))"/>
+        <!--只对所有Service类生效，即末尾带Service的类，修饰符默认public可以省略-->
+        <!--        <aop:pointcut id="pointcut" expression="execution(public * com.imooc..*Service.*(..))"/>-->
+        <!--        <aop:pointcut id="pointcut" expression="execution(* com.imooc..*Service.*(..))"/>-->
+        <!--只对所有返回值为void类型方法生效-->
+        <!--        <aop:pointcut id="pointcut" expression="execution(void com.imooc..*Service.*(..))"/>-->
+        <!-- 对方法名进行约束，不仅是类名Service结尾，而且方法名要create开头 -->
+        <!--        <aop:pointcut id="pointcut" expression="execution(void com.imooc..*Service.create*(..))"/>-->
+        <!-- 对参数进行约束，方法参数是2个，并且第一个参数类型是String -->
+<!--        <aop:pointcut id="pointcut" expression="execution(* com.imooc..*Service.*(String, *))"/>-->
         <!-- 定义切面类 -->
         <aop:aspect ref="methodAspect">
             <!-- before通知(Advice),代表在目标方法运行前先执行methodAspect.printExecutionTime() -->
