@@ -20,6 +20,17 @@ public class MethodAspect {
         for (Object arg : args) {
             System.out.println("------>参数：" + arg);
         }
+    }
 
+    public void doAfterReturning(JoinPoint joinPoint, Object ret) {
+        System.out.println("<-----返回后通知：" + ret);
+    }
+
+    public void doAfterThrowing(JoinPoint joinPoint, Throwable th) {
+        System.out.println("<-----异常通知：" + th.getMessage());
+    }
+
+    public void doAfter(JoinPoint joinPoint) {
+        System.out.println("<-----触发后置通知");
     }
 }

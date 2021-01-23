@@ -10,5 +10,6 @@ public class SpringApplication {
         UserService userService = context.getBean("userService", UserService.class);
         userService.createUser();
         userService.generateRandomPassword("MD5", 16);
+        // 此时演示异常通知，手动制造运行时异常
     }
 }
