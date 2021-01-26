@@ -1,5 +1,6 @@
 import com.me.spring.jdbc.dao.EmployeeDao;
 import com.me.spring.jdbc.entity.Employee;
+import com.me.spring.jdbc.service.EmployeeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +16,9 @@ import java.util.Date;
 public class JdbcTemplateTestor {
     @Resource
     private EmployeeDao employeeDao;
+
+    @Resource
+    private EmployeeService employeeService;
 
     @Test
     public void testFindById() {
@@ -56,4 +60,11 @@ public class JdbcTemplateTestor {
         int count = employeeDao.delete(8888);
         System.out.println("本次删除" + count + "条数据");
     }
+
+    @Test
+    public void testBatchImport() {
+        employeeService.batchImport();
+        System.out.println("批量导入成功");
+    }
+
 }

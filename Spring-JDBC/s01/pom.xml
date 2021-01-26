@@ -33,6 +33,12 @@
             <artifactId>spring-test</artifactId>
             <version>5.2.6.RELEASE</version>
         </dependency>
+        <!-- logback日志组件，Spring框架默认集成 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -16,11 +16,15 @@
     </bean>
     <!-- JdbcTemplate提供数据CRUD的API -->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="employeeDao" class="com.me.spring.jdbc.dao.EmployeeDao">
         <!-- 为Dao注入JdbcTemplate对象 -->
-        <property name="jdbcTemplate" ref="jdbcTemplate" />
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="employeeService" class="com.me.spring.jdbc.service.EmployeeService">
+        <property name="employeeDao" ref="employeeDao"/>
     </bean>
 </beans>
