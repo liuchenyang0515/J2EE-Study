@@ -1,6 +1,7 @@
 package com.me.spring.jdbc.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class Employee {
     private Integer eno;

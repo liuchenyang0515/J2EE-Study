@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.sql.Date;
 
 
 // junit控制权交给Spring来进行，为了让测试在Spring容器环境下执行
@@ -43,7 +43,7 @@ public class JdbcTemplateTestor {
         employee.setEname("赵六");
         employee.setSalary(6666f);
         employee.setDname("研发部");
-        employee.setHiredate(new Date());
+        employee.setHiredate(new Date(new java.util.Date().getTime()));
         employeeDao.insert(employee);
     }
 
