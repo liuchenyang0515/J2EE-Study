@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class EmployeeDao {
     private JdbcTemplate jdbcTemplate;
+
     // spring-jdbc查询的3种核心方法
     public Employee findById(Integer eno) {
         String sql = "select * from employee where eno = ?";
@@ -32,6 +33,27 @@ public class EmployeeDao {
         // 假如无法进行实体类的映射，可以用这种方法，在工作中非常常见
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, new Object[]{dname});
         return maps;
+    }
+
+    // 数据写入-新增
+    public void insert(Employee employee) {
+        String sql = "insert into employee (eno, ename, salary, dname, hiredate) values(?,?,?,?,?)";
+        jdbcTemplate.update(sql, new Object[]{
+                employee.getEno(), employee.getEname(), employee.getSalary(), employee.getDname(), employee.getHiredate()
+        });
+    }
+
+    // 数据写入-更新
+    public int update(Employee employee) {
+        String sql = "UPDATE employee SET ename = ?, salary = ?, dname = ?, hiredate = ? WHERE eno = ?";
+        int count = jdbcTemplate.update(sql, new Object[]{employee.getEname(), employee.getSalary(), employee.getDname(), employee.getHiredate(), employee.getEno()});
+        return count;
+    }
+
+    // 数据写入-删除
+    public int delete(Integer eno) {
+        String sql = "delete from employee where eno = ?";
+        return jdbcTemplate.update(sql, new Object[]{eno});
     }
 
     public JdbcTemplate getJdbcTemplate() {
