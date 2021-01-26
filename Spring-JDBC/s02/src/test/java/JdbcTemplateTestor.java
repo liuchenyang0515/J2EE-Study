@@ -18,23 +18,23 @@ public class JdbcTemplateTestor {
     private EmployeeService employeeService;
 
     @Test
-    public void testFindById(){
+    public void testFindById() {
         Employee employee = employeeDao.findById(3308);
         System.out.println(employee);
     }
 
     @Test
-    public void testFindByDname(){
+    public void testFindByDname() {
         System.out.println(employeeDao.findByDname("市场部"));
     }
 
     @Test
-    public void testFindMapByDname(){
+    public void testFindMapByDname() {
         System.out.println(employeeDao.findMapByDname("研发部"));
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         Employee employee = new Employee();
         employee.setEno(8888);
         employee.setEname("赵六");
@@ -45,7 +45,7 @@ public class JdbcTemplateTestor {
     }
 
     @Test
-    public void  testUpdate(){
+    public void testUpdate() {
         Employee employee = employeeDao.findById(8888);
         employee.setSalary(employee.getSalary() + 1000);
         int count = employeeDao.update(employee);
@@ -53,14 +53,19 @@ public class JdbcTemplateTestor {
     }
 
     @Test
-    public void  testDelete(){
+    public void testDelete() {
         int count = employeeDao.delete(8888);
         System.out.println("本次删除" + count + "条数据");
     }
 
     @Test
-    public void testBatchImport(){
+    public void testBatchImport() {
         employeeService.batchImport();
         System.out.println("批量导入成功");
+    }
+
+    @Test
+    public void testStartImportJob() {
+        employeeService.startImportJob();
     }
 }

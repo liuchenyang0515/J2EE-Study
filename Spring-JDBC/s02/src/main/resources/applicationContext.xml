@@ -32,7 +32,12 @@
 
     <bean id="employeeService" class="com.imooc.spring.jdbc.service.EmployeeService">
         <property name="employeeDao" ref="employeeDao"/>
+        <property name="batchService" ref="batchService"/>
     </bean>
+    <bean id="batchService" class="com.imooc.spring.jdbc.service.BatchService">
+        <property name="employeeDao" ref="employeeDao"/>
+    </bean>
+
     <!-- 1.事务管理器，用于创建事务/提交/回滚 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
@@ -45,8 +50,20 @@
             <!-- 设置所有findXXX方法不需要使用事务 -->
             <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>
             <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <!-- 因为name="startImportJob" propagation="REQUIRED" 开启了事务，
+                startImportJob()方法开启了事务1，里面的importJob1()方法设置propagation="REQUIRED"，发现已经有了事务，就加入到这个事务
+                而发生运行时异常会撤销事务1中的所有操作，所以第二个批处理插入没执行，第一个批处理插入回滚，看不到插入的数据
+                如果改为propagation="REQUIRES_NEW"，那么执行该方法会新建事务，如果当前存在事务，就把当前事务挂起，等新建的事务提交后再恢复
+                改为<tx:method name="importJob1" propagation="REQUIRES_NEW"/>之后，startImportJob()开启的事务1被挂起，importJob1()开启事务2，
+                之后importJob1()的事务2提交，事务1恢复，然后遇到运行时异常，事务2已完成操作，插入的数据并不会回滚
+             -->
+            <!--            <tx:method name="importJob1" propagation="REQUIRED"/>-->
+            <!--            <tx:method name="importJob2" propagation="REQUIRED"/>-->
+            <tx:method name="importJob1" propagation="REQUIRES_NEW"/>
+            <tx:method name="importJob2" propagation="REQUIRES_NEW"/>
+            <tx:method name="startImportJob" propagation="REQUIRED"/>
             <!-- 配置其余的方法是否需要事务 -->
-<!--            <tx:method name="*" propagation="REQUIRED"/>-->
+            <!--            <tx:method name="*" propagation="REQUIRED"/>-->
         </tx:attributes>
     </tx:advice>
 
