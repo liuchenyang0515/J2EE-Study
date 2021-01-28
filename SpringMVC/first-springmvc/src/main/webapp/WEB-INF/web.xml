@@ -28,4 +28,22 @@
         <!--  "/"代表拦截所有请求-->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!-- 将post请求字符的ISO-8859-1变为UTF-8
+        对于get请求，tomcat 8.0以后默认就是UTF-8, 但是8.0之前要写，需要在Tomcat目录D:\Tomcat9.0\conf\server.xml文件下修改
+        <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>改为
+        <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8" />
+        加上URIEncoding="UTF-8"，然后重启服务器
+     -->
+    <filter>
+        <filter-name>characterFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
