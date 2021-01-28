@@ -37,7 +37,7 @@ public class FormController {
     }
 
 
-    @PostMapping("/apply")
+//    @PostMapping("/apply")
     @ResponseBody // 也可以用实体类去接收复合表单数据，极大减少开发工作量，需要掌握
     public String apply(MyForm form) {
         return "SUCCESS";
@@ -49,6 +49,15 @@ public class FormController {
     @ResponseBody // 只要包含数组数据，那么就只返回数组第一项，这就是缺陷，比如多选框选择了3项，那么它只保存第一项的序号，数据会丢失
     public String apply(@RequestParam Map map) {
         System.out.println(map);
+        return "SUCCESS";
+    }
+
+    // 表单构建时增加关联对象，表单提交数据时，为后台数据结构自动赋值，在复杂表单中很常用。
+    // 收货人delivery.name，联系电话delivery.mobile，收货地址delivery.address，自动给MyForm对象里面的delivery对象赋值解析到对应属性
+    @PostMapping("/apply")
+    @ResponseBody
+    public String applyDelivery(MyForm form) {
+        System.out.println(form.getDelivery().getName());
         return "SUCCESS";
     }
 }

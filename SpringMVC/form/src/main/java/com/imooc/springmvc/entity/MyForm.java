@@ -6,6 +6,7 @@ public class MyForm {
     private String name;
     private String course;
     private List<Integer> purpose;
+    private Delivery delivery = new Delivery();
 
     public String getName() {
         return name;
@@ -29,5 +30,13 @@ public class MyForm {
 
     public void setPurpose(List<Integer> purpose) {
         this.purpose = purpose;
+    }
+
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 }
