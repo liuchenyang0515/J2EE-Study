@@ -43,4 +43,21 @@
             </set>
         </property>
     </bean>
+    <!-- 启用freemarker模版引擎 -->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <!-- 返回客户端时的字符集 -->
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
+    <!-- 告诉SpringMVC，freemarker加载路径在哪里 -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!-- 模版加载的路径 -->
+        <property name="templateLoaderPath" value="/WEB-INF/ftl" />
+        <property name="freemarkerSettings">
+            <props>
+                <!-- 产生结果时的字符集 -->
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
