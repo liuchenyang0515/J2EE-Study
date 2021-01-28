@@ -20,7 +20,19 @@
     -->
     <context:component-scan base-package="com.me.springmvc"></context:component-scan>
     <!--启用Spring MVC的注解开发模式-->
-    <mvc:annotation-driven conversion-service="conversionService"/>
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <!-- 对于http响应文本进行转换 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- 等同于servlet的response.setContextType("text/html;charset=utf-8") -->
+                        <value>text/html;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!-- 将图片/JS/CSS等静态资源排除在外,不拦截处理请求来的静态资源，可提高执行效率 -->
     <mvc:default-servlet-handler />
     <!-- 通知SpringMVC有哪些自定义的转换类 -->
