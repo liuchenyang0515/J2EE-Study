@@ -20,7 +20,15 @@
     -->
     <context:component-scan base-package="com.me.springmvc"></context:component-scan>
     <!--启用Spring MVC的注解开发模式-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
     <!-- 将图片/JS/CSS等静态资源排除在外,不拦截处理请求来的静态资源，可提高执行效率 -->
     <mvc:default-servlet-handler />
+    <!-- 通知SpringMVC有哪些自定义的转换类 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.me.springmvc.converter.MyDateConverter"></bean>
+            </set>
+        </property>
+    </bean>
 </beans>
