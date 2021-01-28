@@ -3,6 +3,7 @@ package com.me.springmvc.controller;
 import com.me.springmvc.entity.User;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,7 +53,17 @@ public class URLMappingController {
 
     @GetMapping("/view")
     public ModelAndView showView(Integer userId) {
-        ModelAndView mav = new ModelAndView("/view.jsp");
+        // 默认ModelAndView使用请求转发(forward)至页面
+//        ModelAndView mav = new ModelAndView("/view.jsp");
+        ModelAndView mav = new ModelAndView();
+        /*
+            如果是view.jsp而不是/view.jsp，没有"/"代表相对路径，这里是@RequestMapping("/um") 是/um前缀
+            http://localhost/um/[view?userId=1]，相对于[...]括号中的路径
+            变为http://localhost/um/view.jsp（并带上这里的"lily"参数，直接访问是没有username参数的）
+            相对于资源目录webapp的um目录下的view.jsp, 请注意区别
+            但是并不推荐这么写，尽量用/开头的绝对路径
+        */
+        mav.setViewName("/view.jsp"); // 这个等同于直接在构造函数设置
         User user = new User();
         if (userId == 1) {
             user.setUsername("lily");
@@ -61,7 +72,31 @@ public class URLMappingController {
         } else if (userId == 3) {
             user.setUsername("lina");
         }
+        // mav.addObject()方法设置的属性默认存放在当前请求中，如果是重定向，那么客户端会发起新请求，地址发生了变化，user数据丢失
+        // 重定向使用new ModelAndView("redirect:/index.jsp")
         mav.addObject("u", user);
         return mav;
+    }
+
+    // String与ModelMap替代ModelAndView也可以
+    // Controller方法返回String的情况
+    // 1.方法被@ResponseBody描述，SpringMVC直接响应String字符串本身
+    // 2.方法不存在@ResponseBody, 则SpringMVC处理String指代的视图(页面)
+    // http://localhost/um/view1?userId=1
+    @GetMapping("/view1")
+//    @ResponseBody
+    // 这里没有@ResponseBody就和上面用ModelAndView结果一样
+    public String showView1(Integer userId, ModelMap modelMap) {
+        String view = "/um/view.jsp"; // 这里直接写出了资源目录绝对路径
+        User user = new User();
+        if (userId == 1) {
+            user.setUsername("lily");
+        } else if (userId == 2) {
+            user.setUsername("smith");
+        } else if (userId == 3) {
+            user.setUsername("lina");
+        }
+        modelMap.addAttribute("u", user); // 代码功能和上面mav.addObject功能完全一样
+        return view;
     }
 }
