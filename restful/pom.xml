@@ -20,6 +20,25 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.3.2</version>
         </dependency>
+        <!-- jackson要用2.9.0以后的包，之前的包和mysql一起使用时有严重漏洞 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <!-- jackson和目标交互的根源所在 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <!-- jackson注解，利用注解简化开发 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
