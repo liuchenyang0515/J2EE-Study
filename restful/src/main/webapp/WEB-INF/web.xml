@@ -46,4 +46,13 @@
         <filter-name>characterFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>formContentFilter</filter-name>
+        <!-- Spring能力的扩展，对put和delete请求进行支持，否则默认只支持get和post -->
+        <filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>formContentFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

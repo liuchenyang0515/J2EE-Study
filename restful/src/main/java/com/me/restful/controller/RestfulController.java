@@ -1,5 +1,6 @@
 package com.me.restful.controller;
 
+import com.me.restful.entity.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +19,15 @@ public class RestfulController {
     // 路径变量：URI中可变的数值
     @PostMapping("/request/{rid}") // uri相同，请求方式不同，一个post一个get，并不冲突
 //    @ResponseBody
-    public String doPostRequest(@PathVariable("rid") Integer requestId) { // rid注入到requestId
+    public String doPostRequest(@PathVariable("rid") Integer requestId, Person person) { // rid注入到requestId
+        System.out.println(person.getName() + ":" + person.getAge());
         return "{\"message\":\"数据新建成功\",\"id\":" + requestId + "}";
     }
 
     @PutMapping("/request")
 //    @ResponseBody
-    public String doPutRequest() {
+    public String doPutRequest(Person person) {
+        System.out.println(person.getName() + ":" + person.getAge());
         return "{\"message\":\"数据更新成功\"}";
     }
 

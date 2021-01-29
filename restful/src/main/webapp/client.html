@@ -23,7 +23,7 @@
                 $.ajax({
                     url: "/restful/request/100",
                     type: "post",
-                    data: "name=lily&age=23",
+                    data: "name=lily&age=23", // 加入参数
                     dataType: "json",
                     success: function (json) {
                         $("#message").text(json.message + ":" + json.id);
