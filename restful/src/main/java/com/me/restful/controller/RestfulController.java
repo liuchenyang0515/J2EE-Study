@@ -19,6 +19,7 @@ public class RestfulController {
     // 路径变量：URI中可变的数值
     @PostMapping("/request/{rid}") // uri相同，请求方式不同，一个post一个get，并不冲突
 //    @ResponseBody
+    // 参数解析到bean对象，是调用空构造+setter方法
     public String doPostRequest(@PathVariable("rid") Integer requestId, Person person) { // rid注入到requestId
         System.out.println(person.getName() + ":" + person.getAge());
         return "{\"message\":\"数据新建成功\",\"id\":" + requestId + "}";
