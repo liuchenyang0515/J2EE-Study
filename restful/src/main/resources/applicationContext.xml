@@ -9,7 +9,7 @@
             http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/mvc
             http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    <context:component-scan base-package="com.me.restful" />
+    <context:component-scan base-package="com.me.restful"/>
     <!--启用Spring MVC的注解开发模式-->
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -27,5 +27,20 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <!-- 将图片/JS/CSS等静态资源排除在外,不拦截处理请求来的静态资源，可提高执行效率 -->
-    <mvc:default-servlet-handler />
+    <mvc:default-servlet-handler/>
+
+    <mvc:cors>
+        <!--
+            跨域的全局配置
+            访问到restful前缀，允许域名为http://localhost:8080,http://www.imooc.com这两个域名访问跨域资源，
+            注意，前端<img>加载图片、<script>加载某个域名js、<link>加载某个域名css，这些是完全可以访问跨域资源的，不需要设置
+            max-age="3600"是预检请求缓存1小时
+            如果配置注解跨域设置，和全局跨域设置，最终以注解为准
+            跨域是浏览器的安全策略，小程序和原生App都是不生效的，比如原生App的okHttp网络框架去请求文件就不存在什么跨域的概念
+        -->
+
+        <mvc:mapping path="/restful/**"
+                     allowed-origins="http://localhost:8080,http://www.imooc.com"
+                     max-age="3600"/>
+    </mvc:cors>
 </beans>

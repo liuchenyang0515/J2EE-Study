@@ -28,7 +28,8 @@ import java.util.List;
 // 预检请求是问服务器当前请求是否允许访问，如果不允许，当前操作就中断了
 // maxAge = 3600代表最大时间没超过3600秒，下次put/delete请求就不用发预检请求，直接发送实际请求即可，减轻服务器压力
 // 否则put/delete每次都会发送 预检请求和实际请求
-@CrossOrigin(origins = {"http://localhost:8080"})
+// 如果配置注解跨域设置，和全局跨域设置，最终以注解为准
+//@CrossOrigin(origins = {"http://localhost:8080"})
 public class RestfulController {
     @GetMapping("/request")
 //    @ResponseBody
