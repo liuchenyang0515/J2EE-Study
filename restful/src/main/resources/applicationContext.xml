@@ -19,6 +19,8 @@
                     <list>
                         <!-- 等同于servlet的response.setContextType("text/html;charset=utf-8") -->
                         <value>text/html;charset=utf-8</value>
+                        <!-- 只要是响应application/json数据，就使用utf-8展现数据，如果前端写了<meta charset="UTF-8">即使不写下面这句也是UTF-8显示 -->
+                        <value>application/json;charset=utf-8</value>
                     </list>
                 </property>
             </bean>
