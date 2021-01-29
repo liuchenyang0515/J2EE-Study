@@ -12,23 +12,6 @@ import java.util.List;
 @RestController
 // 默认将字符串向请求中输出，而不是页面跳转，就不需要每个uri命中的方法上加@ResponseBody了,作用就是为了简化开发
 @RequestMapping("/restful")
-// 服务提供端写允许哪些域名跨域
-/**
- * 写了@CrossOrigin(origins = {"http://localhost:8080"})之后，前端看到的响应头多了如下内容
- * Access-Control-Allow-Origin: http://localhost:8080
- *
- * Vary: Origin
- * Vary: Access-Control-Request-Method
- * Vary: Access-Control-Request-Headers
- * 这是与跨域请求相关的响应头，看到Vary字段，浏览器会认为服务器允许跨域访问这些内容，就能解析响应内容
- * */
-// 多个域名跨域请求@CrossOrigin(origins = {"http://localhost:8080","http://www.imooc.com"})
-// 若允许所有，@CrossOrigin(origins = "*")，并不推荐
-// @CrossOrigin(origins = {"http://localhost:8080"}, maxAge = 3600)，maxAge是对预检请求(非简单请求put/delete)结果进行缓存的时间，而不是对请求内容缓存
-// 预检请求是问服务器当前请求是否允许访问，如果不允许，当前操作就中断了
-// maxAge = 3600代表最大时间没超过3600秒，下次put/delete请求就不用发预检请求，直接发送实际请求即可，减轻服务器压力
-// 否则put/delete每次都会发送 预检请求和实际请求
-@CrossOrigin(origins = {"http://localhost:8080"})
 public class RestfulController {
     @GetMapping("/request")
 //    @ResponseBody
