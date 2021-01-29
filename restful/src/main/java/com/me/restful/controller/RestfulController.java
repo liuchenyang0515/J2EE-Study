@@ -3,30 +3,34 @@ package com.me.restful.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+//@Controller
+@RestController
+// 默认将字符串向请求中输出，而不是页面跳转，就不需要每个uri命中的方法上加@ResponseBody了,作用就是为了简化开发
 @RequestMapping("/restful")
 public class RestfulController {
     @GetMapping("/request")
-    @ResponseBody
+//    @ResponseBody
     public String doGetRequest() {
         return "{\"message\":\"返回查询结果\"}";
     }
 
-    @PostMapping("/request") // uri相同，请求方式不同，一个post一个get，并不冲突
-    @ResponseBody
-    public String doPostRequest() {
-        return "{\"message\":\"数据新建成功\"}";
+    // POST /restful/request/100，这里路径变量100赋给了rid
+    // 路径变量：URI中可变的数值
+    @PostMapping("/request/{rid}") // uri相同，请求方式不同，一个post一个get，并不冲突
+//    @ResponseBody
+    public String doPostRequest(@PathVariable("rid") Integer requestId) { // rid注入到requestId
+        return "{\"message\":\"数据新建成功\",\"id\":" + requestId + "}";
     }
 
     @PutMapping("/request")
-    @ResponseBody
+//    @ResponseBody
     public String doPutRequest() {
         return "{\"message\":\"数据更新成功\"}";
     }
 
 
     @DeleteMapping("/request")
-    @ResponseBody
+//    @ResponseBody
     public String doDeleteRequest() {
         return "{\"message\":\"数据删除成功\"}";
     }
