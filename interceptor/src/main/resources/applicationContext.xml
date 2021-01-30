@@ -33,26 +33,39 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <!-- 这里对所有请求进行拦截 -->
-            <mvc:mapping path="/**"/>
-<!--            <mvc:mapping path="/restful/**"/>-->
-<!--            <mvc:mapping path="/webapi/**"/>-->
-<!--            <mvc:exclude-mapping path="/**.ico"/>-->
-<!--            <mvc:exclude-mapping path="/**.jpg"/>-->
-<!--            <mvc:exclude-mapping path="/**.gif"/>-->
-<!--            <mvc:exclude-mapping path="/**.js"/>-->
-<!--            <mvc:exclude-mapping path="/**.css"/>-->
-<!--            <mvc:exclude-mapping path="/resources/**"/>-->
+            <mvc:mapping path="/restful/**"/>
+            <mvc:mapping path="/webapi/**"/>
+            <mvc:exclude-mapping path="/**.ico"/>
+            <mvc:exclude-mapping path="/**.jpg"/>
+            <mvc:exclude-mapping path="/**.gif"/>
+            <mvc:exclude-mapping path="/**.js"/>
+            <mvc:exclude-mapping path="/**.css"/>
+            <!-- 在web资源目录webapp中建立resource目录，静态资源都分类放在里面
+             规范静态资源目录，方便一次性把所有静态资源排除在外，避免一个个去写拦截器里外规则-->
+            <mvc:exclude-mapping path="/resources/**"/>
             <bean class="com.imooc.restful.interceptor.MyInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <mvc:exclude-mapping path="/resources/**"/>-->
-<!--            <bean class="com.imooc.restful.interceptor.AccessHistoryInterceptor"/>-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
-<!--
+    <!--    <mvc:interceptors>-->
+    <!--        <mvc:interceptor>-->
+    <!--            <mvc:mapping path="/**"/>-->
+    <!--            <mvc:exclude-mapping path="/resources/**"/>-->
+    <!--            <bean class="com.imooc.restful.interceptor.AccessHistoryInterceptor"/>-->
+    <!--        </mvc:interceptor>-->
+    <!--    </mvc:interceptors>-->
+
+    <!-- 多个拦截器interceptor执行顺序，涉及到请求与响应的流向问题
+        请求被SpringMVC框架拦截后，多个拦截器的前置处理是按照配置的顺序来的，Controller处理后，
+        拦截器进行后置处理，后置处理是和刚刚反方向的顺序来的，最后返回响应给客户端
+
+        http://localhost/restful/persons-准备执行
+        http://localhost/restful/persons-准备执行-1
+
+        http://localhost/restful/persons-目标处理成功-1
+        http://localhost/restful/persons-目标处理成功
+        http://localhost/restful/persons-响应内容已产生-1
+        http://localhost/restful/persons-响应内容已产生
+     -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/restful/**"/>
@@ -66,6 +79,17 @@
             <bean class="com.imooc.restful.interceptor.MyInterceptor1"/>
         </mvc:interceptor>
     </mvc:interceptors>
--->
+    <!-- eg：第一个拦截器前置处理preHandle是return true，第二个却返回false，打印如下
+            http://localhost/restful/persons-准备执行
+            http://localhost/restful/persons-准备执行-1
+            http://localhost/restful/persons-响应内容已产生
+        可以思考拦截流程
+
+        eg: 如果第一个拦截器前置处理就return false，打印如下
+            http://localhost/restful/persons-准备执行
+
+            结果只有第一个拦截器的前置处理
+
+     -->
 
 </beans>
