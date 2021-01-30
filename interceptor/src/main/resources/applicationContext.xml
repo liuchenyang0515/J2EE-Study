@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mv="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <context:component-scan base-package="com.imooc.restful"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- response.setContentType("text/html;charset=utf-8") -->
+                        <value>text/html;charset=utf-8</value>
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <mvc:default-servlet-handler/>
+    <mvc:cors>
+        <mvc:mapping path="/restful/**"
+                     allowed-origins="http://localhost:8080,http://www.imooc.com"
+                     max-age="3600"/>
+    </mvc:cors>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 这里对所有请求进行拦截 -->
+            <mvc:mapping path="/**"/>
+<!--            <mvc:mapping path="/restful/**"/>-->
+<!--            <mvc:mapping path="/webapi/**"/>-->
+<!--            <mvc:exclude-mapping path="/**.ico"/>-->
+<!--            <mvc:exclude-mapping path="/**.jpg"/>-->
+<!--            <mvc:exclude-mapping path="/**.gif"/>-->
+<!--            <mvc:exclude-mapping path="/**.js"/>-->
+<!--            <mvc:exclude-mapping path="/**.css"/>-->
+<!--            <mvc:exclude-mapping path="/resources/**"/>-->
+            <bean class="com.imooc.restful.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            <mvc:exclude-mapping path="/resources/**"/>-->
+<!--            <bean class="com.imooc.restful.interceptor.AccessHistoryInterceptor"/>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+<!--
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/restful/**"/>
+            <mvc:mapping path="/webapi/**"/>
+            <mvc:exclude-mapping path="/**.ico"/>
+            <mvc:exclude-mapping path="/**.jpg"/>
+            <mvc:exclude-mapping path="/**.gif"/>
+            <mvc:exclude-mapping path="/**.js"/>
+            <mvc:exclude-mapping path="/**.css"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <bean class="com.imooc.restful.interceptor.MyInterceptor1"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+-->
+
+</beans>
