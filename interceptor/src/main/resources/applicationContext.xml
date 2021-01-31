@@ -46,13 +46,13 @@
             <bean class="com.imooc.restful.interceptor.MyInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-    <!--    <mvc:interceptors>-->
-    <!--        <mvc:interceptor>-->
-    <!--            <mvc:mapping path="/**"/>-->
-    <!--            <mvc:exclude-mapping path="/resources/**"/>-->
-    <!--            <bean class="com.imooc.restful.interceptor.AccessHistoryInterceptor"/>-->
-    <!--        </mvc:interceptor>-->
-    <!--    </mvc:interceptors>-->
+        <mvc:interceptors>
+            <mvc:interceptor>
+                <mvc:mapping path="/**"/>
+                <mvc:exclude-mapping path="/resources/**"/>
+                <bean class="com.imooc.restful.interceptor.AccessHistoryInterceptor"/>
+            </mvc:interceptor>
+        </mvc:interceptors>
 
     <!-- 多个拦截器interceptor执行顺序，涉及到请求与响应的流向问题
         请求被SpringMVC框架拦截后，多个拦截器的前置处理是按照配置的顺序来的，Controller处理后，

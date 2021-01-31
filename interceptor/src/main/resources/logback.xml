@@ -5,10 +5,14 @@
             <pattern>[%thread] %d %level %logger{10} - %msg%n</pattern>
         </encoder>
     </appender>
+    <!-- 增加一个appender，生成按天滚动的日志文件，一天产生一个文件，保存到文件而不是只输出在控制台 -->
     <appender name="accessHistoryLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件保存的位置 -->
             <fileNamePattern>d:/logs/history.%d.log</fileNamePattern>
         </rollingPolicy>
+        <!-- 日志输出格式 -->
         <encoder>
             <pattern>[%thread] %d %level %logger{10} - %msg%n</pattern>
         </encoder>
@@ -16,8 +20,13 @@
     <root level="debug">
         <appender-ref ref="console"/>
     </root>
+    <!-- 这个类产生的日志，都会使用这个规则
+        additivity="true"则输出到控制台
+        additivity="false"则保存到文件
+    -->
     <logger name="com.imooc.restful.interceptor.AccessHistoryInterceptor"
             level="INFO" additivity="false">
+        <!-- 引用日志的配置 -->
         <appender-ref ref="accessHistoryLog"/>
     </logger>
 </configuration>
