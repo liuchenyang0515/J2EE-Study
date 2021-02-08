@@ -45,6 +45,8 @@ public class URLMappingController {
     // 第三个参数Date createTime，前端输入字符串日期会报错
     //  Failed to convert from type [java.lang.String] to type [java.util.Date] for value '2021-1-1';
     // 这时需要加上@DateTimeFormat(pattern = "yyyy-MM-dd")
+
+    // 切记！！配置了自定义日期转换器类，@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm-ss")这里注解完全被忽略，按自定义日期转换类格式来
     public String postMapping1(User user, String username, @DateTimeFormat(pattern = "yyyy-MM-dd") Date createTime) { // bean对象来接收客户端的数据，不管是实体类还是这里的参数，只要对应input的name值，会全部注入，比如有多少username就注入多少
         // SpringMBC发现接收方法的参数是实体类，会在实体类寻找同名参数，如果找到对应变量，则自动注入
         System.out.println(user.getUsername() + ":" + user.getPassword());
