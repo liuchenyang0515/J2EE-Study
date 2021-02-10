@@ -34,6 +34,16 @@ public class JedisTestor {
             jedis.hmset("student:3313", studentMap);
             Map<String, String> smap = jedis.hgetAll("student:3313");
             System.out.println(smap);
+
+            // List
+            jedis.del("letter"); // 避免后续持续rpush和lpush的影响
+            jedis.rpush("letter", new String[]{"d", "e", "f"});
+            jedis.lpush("letter", new String[]{"c", "b", "a"});
+            List<String> letterList = jedis.lrange("letter", 0, -1); // 这里是瞬时状态，后续操作这个list是不变的
+            jedis.lpop("letter");
+            jedis.rpop("letter");
+            letterList = jedis.lrange("letter", 0, -1); // 还需要再获得一次瞬时状态list
+            System.out.println(letterList);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
