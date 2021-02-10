@@ -2,7 +2,9 @@ package com.me.jedis;
 
 import redis.clients.jedis.Jedis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JedisTestor {
     public static void main(String[] args) {
@@ -20,6 +22,18 @@ public class JedisTestor {
             System.out.println(goods);
             Long num = jedis.incr("num");
             System.out.println(num);
+
+            // Hash
+            jedis.hset("student:3312", "name", "张晓明");// 一个学号3312的学生数据
+            String name = jedis.hget("student:3312", "name");
+            System.out.println(name);
+            Map<String, String> studentMap = new HashMap<>();
+            studentMap.put("name", "李兰"); // redis用Unicode显示，"\xe6\x9d\x8e\xe5\x85\xb0"，这里是UTF-8编码1个字符是3个字节
+            studentMap.put("age", "18");
+            studentMap.put("id", "3313");
+            jedis.hmset("student:3313", studentMap);
+            Map<String, String> smap = jedis.hgetAll("student:3313");
+            System.out.println(smap);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
