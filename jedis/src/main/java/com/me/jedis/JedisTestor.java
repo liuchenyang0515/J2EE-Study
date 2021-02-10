@@ -37,8 +37,9 @@ public class JedisTestor {
 
             // List
             jedis.del("letter"); // 避免后续持续rpush和lpush的影响
-            jedis.rpush("letter", new String[]{"d", "e", "f"});
+            jedis.rpush("letter", new String[]{"d", "e", "f"}); // rpush letter d e f
             jedis.lpush("letter", new String[]{"c", "b", "a"});
+            // lrange letter 0 -1
             List<String> letterList = jedis.lrange("letter", 0, -1); // 这里是瞬时状态，后续操作这个list是不变的
             jedis.lpop("letter");
             jedis.rpop("letter");
