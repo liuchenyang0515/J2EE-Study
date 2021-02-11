@@ -5,9 +5,10 @@ import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CacheSample {
-    public CacheSample(){
+    public CacheSample() {
         Jedis jedis = new Jedis("192.168.0.107", 6380);
         try {
             List<Goods> goodsList = new ArrayList<>();
@@ -29,5 +30,24 @@ public class CacheSample {
 
     public static void main(String[] args) {
         new CacheSample();
+        System.out.println("请输入要查询的商品编号：");
+        String goodsId = new Scanner(System.in).next();
+        Jedis jedis = new Jedis("192.168.0.107", 6380); // 用于数据检索
+        try {
+            jedis.auth("12345");
+            jedis.select(3);
+            String key = "goods:" + goodsId;
+            if (jedis.exists(key)) {
+                String json = jedis.get(key);
+                System.out.println(json);
+                Goods goods = JSON.parseObject(json, Goods.class);
+                System.out.println(goods.getGoodsName());
+                System.out.println(goods.getPrice());
+            } else {
+                System.out.println("您输入的商品编号不存在，请重新输入！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
